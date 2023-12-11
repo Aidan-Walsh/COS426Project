@@ -1,9 +1,9 @@
 {
-  "name": "lower-case-dashed-name-of-project",
-  "repository": "cos426finalproject",
+  "name": "3d-tetris",
+  "repository": "COS426Project",
   "version": "0.1.0",
-  "title": "PROJECT TITLE HERE",
-  "description": "SHORT DESCRIPTION OF PROJECT HERE. ONE TO TWO SENTENCES MAX",
+  "title": "3D Tetris",
+  "description": "Tetris, but in 3 Dimensions!",
   "keywords": [
     "Princeton",
     "graphics",
@@ -22,24 +22,24 @@
     "deploy": "npm run prebuild && webpack --mode production --progress && gh-pages -d build"
   },
   "dependencies": {
-    "dat.gui": "^0.7.7",
+    "dat.gui": "^0.7.9",
     "three": "^0.133.1",
     "three-obj-loader": "^1.1.3",
-    "webpack-cli": "^4.9.0"
+    "webpack-cli": "^4.10.0"
   },
   "devDependencies": {
     "@babel/core": "^7.15.8",
-    "@babel/preset-env": "^7.15.8",
+    "@babel/preset-env": "^7.23.5",
     "babel-loader": "^8.2.2",
     "file-loader": "^6.2.0",
     "gh-pages": "^3.2.3",
-    "html-webpack-plugin": "^5.3.2",
+    "html-webpack-plugin": "^5.5.4",
     "mkdirp": "^1.0.4",
     "prettier": "^2.4.1",
     "raw-loader": "^4.0.2",
     "rimraf": "^3.0.2",
-    "webpack": "^5.58.1",
-    "webpack-dev-server": "^4.3.1"
+    "webpack": "^5.89.0",
+    "webpack-dev-server": "^4.15.1"
   },
   "engines": {
     "node": ">=8.0.0"
