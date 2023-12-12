@@ -11,7 +11,8 @@ import { LeftWall } from '../objects/LeftWall';
 import { LeftWallMesh } from '../objects/LeftWallMesh';
 import { RightWallMesh } from '../objects/RightWallMesh';
 import { Block, OBlock, LBlock, JBlock, IBlock, SBlock, ZBlock, TBlock } from '../objects/Block';
-import { GameOver } from '../objects/UI';
+import { GameOver, Score } from '../objects/UI';
+import { Font } from 'three/examples/jsm/loaders/FontLoader.js';
 
 class SeedScene extends Scene {
     constructor() {
@@ -22,6 +23,9 @@ class SeedScene extends Scene {
         this.background = new Color(0x7ec0ee);
         this.highScore = 0;
         this.size = 6;
+
+        const fontJson = require( "three/examples/fonts/gentilis_bold.typeface.json" );
+        this.font = new Font( fontJson );
 
         this.grid = new Array(this.size);
         this.blocks = new Array(this.size);
@@ -217,8 +221,10 @@ class SeedScene extends Scene {
         const rearwallmesh = new RearWallMesh(); 
         const leftwall = new LeftWall(); 
         const leftwallmesh = new LeftWallMesh();
-   
         this.add(lights, floor, floormesh, rearwall, rearwallmesh, leftwall, leftwallmesh);
+
+        const score = new Score(this);
+        this.add(score);
     }
 }
 

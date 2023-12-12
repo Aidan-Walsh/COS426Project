@@ -5,16 +5,16 @@ import { PlaneGeometry, MeshBasicMaterial, Mesh, DoubleSide, Line, Color, Vector
 import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry.js';
 
 
-class GameOver extends Group {
+class Score extends Group {
     constructor(parent) {
         // Call parent Group() constructor
         super();
 
-        this.name = 'gameover';
+        this.name = 'score';
         this.locked = false;
         this.parent = parent;
 
-        var textGeometry = new TextGeometry("GAME OVER", {
+        var textGeometry = new TextGeometry("Score: 0", {
           size: 1,
           height: 1,
           curveSegments: 2,
@@ -28,7 +28,7 @@ class GameOver extends Group {
     }
 
     update(timeStamp){
-      
+      TWEEN.update();
     }
 
     action(event){
@@ -38,4 +38,4 @@ class GameOver extends Group {
     }
 }
 
-export default GameOver;
+export default Score;
