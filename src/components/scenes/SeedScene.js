@@ -20,7 +20,7 @@ class SeedScene extends Scene {
 
         // Set background to a nice color
         this.background = new Color(0x7ec0ee);
-
+        this.highScore = 0;
         this.size = 6;
 
         this.grid = new Array(this.size);
@@ -45,6 +45,7 @@ class SeedScene extends Scene {
 
     clearRows(){
         let yPlane = 0;
+        let numClears = 0;
         let size = 6;
         while (yPlane < 6){
             let clear = true;
@@ -60,6 +61,7 @@ class SeedScene extends Scene {
                 }
             }
             if (clear) {
+                numClears += 1;
                 for (let i = 0; i < size; i++) {
                     for (let j = 0; j < size; j++) {
                         this.grid[i][yPlane][j] = false;
@@ -86,6 +88,23 @@ class SeedScene extends Scene {
                 yPlane += 1;
             }
         }
+        if (numClears == 1){
+            this.score += 1000;
+        }
+        if (numClears == 2){
+            this.score += 3000;
+        }
+        if (numClears == 3){
+            this.score += 5000;
+        }
+        if (numClears == 4){
+            this.score += 8000;
+        }
+        if (this.score > this.highScore){
+            this.highScore = this.score;
+        }
+        console.log(this.score);
+        console.log(this.highScore);
     }
 
     update(timeStamp) {
@@ -188,6 +207,7 @@ class SeedScene extends Scene {
         };
 
         this.difficulty = 1;
+        this.score = 0;
         this.lastUpdate = 0;
 
         const lights = new BasicLights();
