@@ -95,6 +95,7 @@ class Block extends Group {
           if (timeStamp - this.lastUpdate > 2000 / this.difficulty){
             if (willCollide){
               this.locked = true;
+
             }
             else {
               this.position.y -= 2;
@@ -104,6 +105,9 @@ class Block extends Group {
         }
         else {
           this.locked = true;
+
+          
+
         }
       }
       
