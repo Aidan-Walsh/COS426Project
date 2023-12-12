@@ -1,6 +1,6 @@
 import { DynamicCopyUsage, Group } from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
-import { MeshBasicMaterial, Mesh, DoubleSide, Line, Color, Vector3, BufferGeometry, BufferAttribute, BoxGeometry, LineBasicMaterial, EdgesGeometry, LineSegments} from 'three';
+import { MeshBasicMaterial, Mesh, DoubleSide, Line, Color, Vector3, BufferGeometry, BufferAttribute, BoxGeometry, LineBasicMaterial, EdgesGeometry, LineSegments, PlaneGeometry} from 'three';
 import { TWEEN } from 'three/examples/jsm/libs/tween.module.min.js';
 
 
@@ -131,6 +131,12 @@ class Block extends Group {
         if (timeStamp - this.lastUpdate > 2000 / this.difficulty){
           if (willCollide){
             this.locked = true;
+
+            // remove shadow after landing
+            for (let i = 2; i < this.children.length; i++) {
+              this.remove(this.children[i]); 
+            }
+            
           }
           else {
             this.position.y -= 2;
