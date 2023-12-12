@@ -25,6 +25,12 @@ class JBlock extends Group {
             for(const block of this.items){
                 if (block.checkCollision(block, 0, -1, 0)){
                     willCollde = true;
+
+                // remove shadow children if about to collide
+                for (let j = 2; j < block.children.length; j++) {
+                block.remove(block.children[j]); 
+                }   
+                    
                 }
             }
             for(const block of this.items){
@@ -32,7 +38,7 @@ class JBlock extends Group {
             }
             for(const block of this.items){
                 if (block.locked) {
-                    this.locked = true;
+                    this.locked = true;                                
                 }
             }
             if (this.locked){
@@ -41,6 +47,12 @@ class JBlock extends Group {
                     let x = (block.position.x + 5)/2;
                     let y = (block.position.y + 4)/2;
                     let z = (block.position.z + 11)/2;
+
+                    // remove all previous children that are not the edges and cube, which are 0 and 1 indices
+                    // to get rid of shadow when it lands
+                    for (let j = 2; j < block.children.length; j++) {
+                        block.remove(block.children[j]); 
+                }
 
             try {this.grid[x][y][z] = true;}
             catch(error) {return true;}

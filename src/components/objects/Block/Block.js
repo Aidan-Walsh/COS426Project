@@ -1,4 +1,4 @@
-import { DynamicCopyUsage, Group } from 'three';
+import { DynamicCopyUsage, Group, PlaneGeometry } from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { MeshBasicMaterial, Mesh, DoubleSide, Line, Color, Vector3, BufferGeometry, BufferAttribute, BoxGeometry, LineBasicMaterial, EdgesGeometry, LineSegments} from 'three';
 import { TWEEN } from 'three/examples/jsm/libs/tween.module.min.js';
@@ -83,6 +83,41 @@ class Block extends Group {
             return true;
           }
         }
+
+        // BEGIN CODE FOR SHADOWS
+       
+          for (let i = 6; i >= 0; i--) {
+            let index = i; 
+            if (i ==6) index = 5; 
+              const geometry = new PlaneGeometry(2,2);
+              const color = this.children[1].material.color
+              // remove all previous children that are not the edges and cube, which are 0 and 1 indices
+              for (let j = 2; j < this.children.length; j++) {
+                this.remove(this.children[j]); 
+              }
+              const material = new MeshBasicMaterial({color: color, side: DoubleSide}); 
+              const plane = new Mesh (geometry, material); 
+             let changed_y = 0; 
+             if (this.grid[x][index][z]) {
+              changed_y = -block.position.y -3 + (i*2);
+              plane.position.set(0,changed_y,0); 
+              plane.rotation.x = Math.PI/2; 
+              this.add(plane);
+              break; 
+             }
+             else if (i == 0 && this.grid[x][index][z] != true) {
+              changed_y = -block.position.y-4 - 1;
+              if (block.position.y == -4) {
+                changed_y = 0; 
+              }
+              plane.position.set(0,changed_y,0); 
+              plane.rotation.x = Math.PI/2; 
+              this.add(plane);
+              break; 
+             }        
+            }      
+      
+       // END SHADOWS CODE
         return false;
     }
 
@@ -106,7 +141,7 @@ class Block extends Group {
         else {
           this.locked = true;
 
-          
+
 
         }
       }
