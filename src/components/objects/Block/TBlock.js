@@ -42,8 +42,19 @@ class TBlock extends Group {
                     let x = (block.position.x + 5)/2;
                     let y = (block.position.y + 4)/2;
                     let z = (block.position.z + 11)/2;
+<<<<<<< HEAD
                     this.grid[x][y][z] = true;
                     this.blocks[x][y][z] = block;
+=======
+
+                    try {this.grid[x][y][z] = true;}
+                    catch(error) {return true;}
+                            for (let i = 0; i < block.children.length; i++) { // change opacity at bottom
+                                block.children[i].material.transparent= true; 
+                               block.children[i].material.opacity = 0.4; 
+                             }
+
+>>>>>>> 8c98d7ca2b95c3bd6e3183e58eb69d8e70adfa0f
                 }
             }
         }

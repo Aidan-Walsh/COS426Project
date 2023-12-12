@@ -18,7 +18,7 @@ class Floor extends Group {
         this.name = 'floor';
         this.plane = plane; 
         const geometry1 = new BufferGeometry(); 
-        console.log(plane); 
+
         const vertices = new Float32Array([
             -6,-5,0, //v1 bottom left vertex
     6,-5,0, // v2 bottom right vertex
