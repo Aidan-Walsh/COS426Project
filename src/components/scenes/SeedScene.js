@@ -102,7 +102,9 @@ class SeedScene extends Scene {
                 this.add(block);
             }
         }
-        this.current.update(timeStamp);
+        
+        const gameOver = this.current.update(timeStamp);
+        if (gameOver) console.log("Game over");
     }
 
     setupEventListeners() {

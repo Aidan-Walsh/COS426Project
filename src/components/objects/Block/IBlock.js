@@ -42,15 +42,13 @@ class IBlock extends Group {
                     let x = (block.position.x + 5)/2;
                     let y = (block.position.y + 4)/2;
                     let z = (block.position.z + 11)/2;
-                    this.grid[x][y][z] = true;
 
-                    for (let i = 0; i < block.children.length; i++) { // change opacity at bottom
-                        block.children[i].material.transparent= true; 
-                       block.children[i].material.opacity = 0.4; 
-                     }
-
-
-
+                    try {this.grid[x][y][z] = true;}
+                    catch(error) {return true;}
+                            for (let i = 0; i < block.children.length; i++) { // change opacity at bottom
+                                block.children[i].material.transparent= true; 
+                               block.children[i].material.opacity = 0.4; 
+                             }
                 }
             }
         }
