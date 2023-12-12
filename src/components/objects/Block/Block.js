@@ -105,9 +105,6 @@ class Block extends Group {
         }
         else {
           this.locked = true;
-
-          
-
         }
       }
       
