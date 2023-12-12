@@ -104,9 +104,14 @@ class Block extends Group {
       
       // Advance tween animations, if any exist
       TWEEN.update();
-  }    
+  }
 
-
+  coords() {
+    let x = (this.position.x + 5)/2;
+    let y = (this.position.y + 4)/2;
+    let z = (this.position.z + 11)/2;
+    return new Vector3(x, y, z);
+  }
 }
 
 export default Block;

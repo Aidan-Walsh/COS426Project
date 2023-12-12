@@ -1,57 +1,17 @@
 import { Group } from 'three';
-import { Block } from ".";
+import { Block, Shape } from ".";
 
 
-class OBlock extends Group {
+class OBlock extends Shape {
     constructor(parent, x,y,z) {
-        super();
-        this.items = [];
-        parent.addToUpdateList(this);
-        this.locked = false;
-        this.grid = parent.grid;
-        this.blocks = parent.blocks;
+        super(parent);
+
         this.items.push(new Block(parent, x, y, z, 1));
         this.items.push(new Block(parent, x + 1, y, z, 1));
         this.items.push(new Block(parent, x, y + 1, z, 1));
         this.items.push(new Block(parent, x + 1, y + 1, z, 1));
         for (const item of this.items){
             this.add(item);
-        }
-    }
-
-    update(timeStamp) {
-        if (!this.locked){
-            let willCollde = false;
-            for(const block of this.items){
-                if (block.checkCollision(block, 0, -1, 0) || block.position.y == -4){
-                    willCollde = true;
-                }
-            }
-            for(const block of this.items){
-                block.update(timeStamp, willCollde);
-            }
-            for(const block of this.items){
-                if (block.locked) {
-                    this.locked = true;
-                }
-            }
-            if (this.locked){
-                for(const block of this.items){
-                    block.locked = true;
-                    let x = (block.position.x + 5)/2;
-                    let y = (block.position.y + 4)/2;
-                    let z = (block.position.z + 11)/2;
-                    try {
-                        this.grid[x][y][z] = true;
-                        this.blocks[x][y][z] = block;
-                    }
-                    catch(error) {return true;}
-                    for (let i = 0; i < block.children.length; i++) {
-                        block.children[i].material.transparent= true; 
-                        block.children[i].material.opacity = 0.4; 
-                    }
-                }
-            }
         }
     }
 
