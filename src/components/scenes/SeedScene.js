@@ -89,16 +89,16 @@ class SeedScene extends Scene {
             }
         }
         if (numClears == 1){
-            this.score += 1000;
+            this.score += (1000 * this.difficulty);
         }
         if (numClears == 2){
-            this.score += 3000;
+            this.score += (3000 * this.difficulty);
         }
         if (numClears == 3){
-            this.score += 5000;
+            this.score += (5000 * this.difficulty);
         }
         if (numClears == 4){
-            this.score += 8000;
+            this.score += (8000 * this.difficulty);
         }
         if (this.score > this.highScore){
             this.highScore = this.score;
