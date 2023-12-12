@@ -31,6 +31,13 @@ class GameOver extends Group {
         this.add(mesh);
     }
 
+    update(timeStamp){
+      
+    }
+
+    action(event){
+
+    }
 }
 
 export default GameOver;
