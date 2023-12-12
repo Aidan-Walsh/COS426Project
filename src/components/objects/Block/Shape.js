@@ -20,6 +20,11 @@ class Shape extends Group {
         for (const block of this.items) {
             if (block.checkCollision(block, 0, -1, 0) || block.position.y == -4){
                 willCollide = true;
+
+                 // remove shadow children if about to collide
+                 for (let j = 2; j < block.children.length; j++) {
+                    block.remove(block.children[j]); 
+                    }   
             }
         }
 

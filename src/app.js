@@ -20,6 +20,8 @@ createScoreDisplay();
 camera.position.set(0, 10, 25);
 camera.lookAt(new Vector3(0, 0, 0));
 
+
+
 // Set up renderer, canvas, and minor CSS adjustments
 renderer.setPixelRatio(window.devicePixelRatio);
 const canvas = renderer.domElement;
@@ -42,6 +44,7 @@ const onAnimationFrameHandler = (timeStamp) => {
     controls.update();
     renderer.render(scene, camera);
     scene.update && scene.update(timeStamp);
+
     window.requestAnimationFrame(onAnimationFrameHandler);
 };
 window.requestAnimationFrame(onAnimationFrameHandler);
