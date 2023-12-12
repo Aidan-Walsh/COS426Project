@@ -11,6 +11,8 @@ class Block extends Group {
       // difficulty ranges from 0 to INF, each level increases speed by 10%
       this.locked = false;
       this.position.set(x, y, z);
+      this.difficulty = parent.difficulty;
+      this.grid = parent.grid;
 
       // where we store everything that will be updated
       this.items = []; 
@@ -72,22 +74,36 @@ class Block extends Group {
       this.lastUpdate = 0;
     }
 
+    checkCollision(block, dx, dy, dz){
+        let x = (block.position.x + 5)/2;
+        let y = (block.position.y + 4)/2;
+        let z = (block.position.z + 11)/2;
+        if (x + dx >= 0 && x + dx <= 5 && y + dy >= 0 && y + dy <= 5 && z + dz >= 0 && z + dz <= 5){
+          if (this.grid[x + dx][y + dy][z + dz]){
+            return true;
+          }
+        }
+        return false;
+    }
 
-    update(timeStamp) {
+    update(timeStamp, willCollide) {
       if (!this.locked){
         if (this.lastUpdate == 0) {
           this.lastUpdate = timeStamp;
         }
-        console.log(timeStamp - this.lastUpdate)
-        console.log(parent);
-        console.log(2000 / parent.difficulty);
-        if (timeStamp - this.lastUpdate > 2000 / parent.difficulty){
-          if (this.position.y > -4) { // this -6 is relative to where it starts
-            this.position.y -= 2; 
+        if (this.position.y > -4) {
+          if (timeStamp - this.lastUpdate > 2000 / this.difficulty){
+            if (willCollide){
+              this.locked = true;
+            }
+            else {
+              this.position.y -= 2;
+              this.lastUpdate = timeStamp;
+            }
           }
-          else {
-            this.locked = true;
-          }
+        }
+        else {
+          this.locked = true;
         }
       }
       

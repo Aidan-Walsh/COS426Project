@@ -48,14 +48,13 @@ class SeedScene extends Scene {
         const floormesh = new FloorMesh(); 
         const rearwall = new RearWall(); 
         const rearwallmesh = new RearWallMesh(); 
-        const rightwall = new RightWall(); 
+        //const rightwall = new RightWall(); 
         const leftwall = new LeftWall(); 
         const leftwallmesh = new LeftWallMesh();
-        const rightwallmesh = new RightWallMesh(); 
-        const block = new TBlock(this, 2,0,0,0);
+        //const rightwallmesh = new RightWallMesh(); 
    
-        this.current = block;
-        this.add(lights,  floor, floormesh, rearwall, rearwallmesh, rightwall, leftwall, leftwallmesh, rightwallmesh, block);
+        this.current = null;
+        this.add(lights, floor, floormesh, rearwall, rearwallmesh, leftwall, leftwallmesh);
         
         this.setupEventListeners();
     }
@@ -65,11 +64,45 @@ class SeedScene extends Scene {
     }
 
     update(timeStamp) {
-        const { updateList } = this.state;
-   
-        for (const obj of updateList) {
-            obj.update(timeStamp);
+        if (!this.current || this.current.locked) {
+            let random = Math.floor(Math.random() * 7);
+            if (random == 0){
+                const block = new IBlock(this, 2,0,0,0);
+                this.current = block;
+                this.add(block);
+            }
+            if (random == 1){
+                const block = new JBlock(this, 2,0,0,0);
+                this.current = block;
+                this.add(block);
+            }
+            if (random == 2){
+                const block = new LBlock(this, 2,0,0,0);
+                this.current = block;
+                this.add(block);
+            }
+            if (random == 3){
+                const block = new OBlock(this, 2,0,0,0);
+                this.current = block;
+                this.add(block);
+            }
+            if (random == 4){
+                const block = new SBlock(this, 2,0,0,0);
+                this.current = block;
+                this.add(block);
+            }
+            if (random == 5){
+                const block = new TBlock(this, 2,0,0,0);
+                this.current = block;
+                this.add(block);
+            }
+            if (random == 6){
+                const block = new ZBlock(this, 2,0,0,0);
+                this.current = block;
+                this.add(block);
+            }
         }
+        this.current.update(timeStamp);
     }
 
     setupEventListeners() {
@@ -78,9 +111,6 @@ class SeedScene extends Scene {
 
     // Event handler for keydown events
     handleKeyDown(event) {
-        console.log(`Key pressed: ${event.key}`);
-        // Add your logic here to handle key presses
-        // For example, you could check if a specific key was pressed and act accordingly
         this.current.action(event);
     }
 }
