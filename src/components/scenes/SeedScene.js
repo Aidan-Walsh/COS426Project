@@ -37,9 +37,28 @@ class SeedScene extends Scene {
                 this.blocks[i][j] = new Array(this.size);
             }
         }
+
+        this.state = {
+            gui: new Dat.GUI(),
+            IBlocks: true,
+            OBlocks: true,
+            LBlocks: true,
+            JBlocks: true,
+            TBlocks: true,
+            SBlocks: true,
+            ZBlocks: true,
+            updateList: []
+        };
+
+        this.state.gui.add(this.state, 'IBlocks');
+        this.state.gui.add(this.state, 'OBlocks');
+        this.state.gui.add(this.state, 'LBlocks');
+        this.state.gui.add(this.state, 'JBlocks');
+        this.state.gui.add(this.state, 'TBlocks');
+        this.state.gui.add(this.state, 'SBlocks');
+        this.state.gui.add(this.state, 'ZBlocks');
         
         this.setupEventListeners();
-        
         this.reset();
     }
 
@@ -107,8 +126,6 @@ class SeedScene extends Scene {
         if (this.score > this.highScore){
             this.highScore = this.score;
         }
-        console.log(this.score);
-        console.log(this.highScore);
     }
 
     update(timeStamp) {
@@ -123,40 +140,40 @@ class SeedScene extends Scene {
         }
         if (!this.pause){
             if (this.game == 1){
-                if (!this.current || this.current.locked) {
+                while (!this.current || this.current.locked) {
                     this.clearRows();
                     let random = Math.floor(Math.random() * 7);
-                    if (random == 0){
+                    if (random == 0 && this.state.TBlocks){
                         const block = new TBlock(this, 2,0,0,0);
                         this.current = block;
                         this.add(block);
                     }
-                    if (random == 1){
+                    if (random == 1 && this.state.JBlocks){
                         const block = new JBlock(this, 2,0,0,0);
                         this.current = block;
                         this.add(block);
                     }
-                    if (random == 2){
+                    if (random == 2 && this.state.LBlocks){
                         const block = new LBlock(this, 2,0,0,0);
                         this.current = block;
                         this.add(block);
                     }
-                    if (random == 3){
+                    if (random == 3 && this.state.OBlocks){
                         const block = new OBlock(this, 2,0,0,0);
                         this.current = block;
                         this.add(block);
                     }
-                    if (random == 4){
+                    if (random == 4 && this.state.IBlocks){
                         const block = new IBlock(this, 2,0,0,0);
                         this.current = block;
                         this.add(block);
                     }
-                    if (random == 5){
+                    if (random == 5 && this.state.SBlocks){
                         const block = new SBlock(this, 2,0,0,0);
                         this.current = block;
                         this.add(block);
                     }
-                    if (random == 6){
+                    if (random == 6 && this.state.ZBlocks){
                         const block = new ZBlock(this, 2,0,0,0);
                         this.current = block;
                         this.add(block);
@@ -206,9 +223,7 @@ class SeedScene extends Scene {
             }
         }
 
-        this.state = {
-            updateList: [],
-        };
+        this.state.updateList = [];
 
         this.difficulty = 1;
         this.score = 0;
