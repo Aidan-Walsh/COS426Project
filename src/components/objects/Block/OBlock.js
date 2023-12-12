@@ -9,6 +9,7 @@ class OBlock extends Group {
         parent.addToUpdateList(this);
         this.locked = false;
         this.grid = parent.grid;
+        this.blocks = parent.blocks;
         this.items.push(new Block(parent, x, y, z, 1));
         this.items.push(new Block(parent, x + 1, y, z, 1));
         this.items.push(new Block(parent, x, y + 1, z, 1));
@@ -41,6 +42,7 @@ class OBlock extends Group {
                     let y = (block.position.y + 4)/2;
                     let z = (block.position.z + 11)/2;
                     this.grid[x][y][z] = true;
+                    this.blocks[x][y][z] = block;
                 }
             }
         }

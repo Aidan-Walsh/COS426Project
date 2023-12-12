@@ -9,6 +9,7 @@ class IBlock extends Group {
         parent.addToUpdateList(this);
         this.locked = false;
         this.grid = parent.grid;
+        this.blocks = parent.blocks;
         this.orientation = 0;
         this.items.push(new Block(parent, x, y, z, 4));
         this.items.push(new Block(parent, x - 1, y, z, 4));
@@ -42,6 +43,7 @@ class IBlock extends Group {
                     let y = (block.position.y + 4)/2;
                     let z = (block.position.z + 11)/2;
                     this.grid[x][y][z] = true;
+                    this.blocks[x][y][z] = block;
                 }
             }
         }

@@ -1,5 +1,5 @@
 import * as Dat from 'dat.gui';
-import { Scene, Color } from 'three';
+import { Scene, Color, Mesh } from 'three';
 import { Flower, Land } from 'objects';
 import { BasicLights } from 'lights';
 import Floor from '../objects/Floor/Floor';
@@ -26,21 +26,31 @@ class SeedScene extends Scene {
         this.background = new Color(0x7ec0ee);
 
         const size = 6;
-        let array = new Array(size);
-
+        let grid = new Array(size);
         for (let i = 0; i < size; i++) {
-            array[i] = new Array(size);
+            grid[i] = new Array(size);
             for (let j = 0; j < size; j++) {
-                array[i][j] = new Array(size);
+                grid[i][j] = new Array(size);
                 for (let k = 0; k < size; k++) {
-                    array[i][j][k] = false;
+                    grid[i][j][k] = false;
+                }
+            }
+        }
+        let blocks = new Array(size);
+        for (let i = 0; i < size; i++) {
+            blocks[i] = new Array(size);
+            for (let j = 0; j < size; j++) {
+                blocks[i][j] = new Array(size);
+                for (let k = 0; k < size; k++) {
+                    blocks[i][j][k] = null;
                 }
             }
         }
 
-        this.grid = array;
-        this.blocks = [];
+        this.grid = grid;
+        this.blocks = blocks;
         this.difficulty = 1;
+        this.lastUpdate = 0;
 
         // Add meshes to scene
         const lights = new BasicLights();
@@ -51,7 +61,7 @@ class SeedScene extends Scene {
         //const rightwall = new RightWall(); 
         const leftwall = new LeftWall(); 
         const leftwallmesh = new LeftWallMesh();
-        //const rightwallmesh = new RightWallMesh(); 
+        //const rightwallmesh = new RightWallMesh();
    
         this.current = null;
         this.add(lights, floor, floormesh, rearwall, rearwallmesh, leftwall, leftwallmesh);
@@ -63,7 +73,60 @@ class SeedScene extends Scene {
         this.state.updateList.push(object);
     }
 
+    clearRows(){
+        let yPlane = 0;
+        let size = 6;
+        while (yPlane < 6){
+            let clear = true;
+            for (let i = 0; i < size; i++) {
+                for (let j = 0; j < size; j++) {
+                    if (!this.grid[i][yPlane][j]){
+                        clear = false;
+                        break;
+                    }
+                }
+                if (!clear){
+                    break;
+                }
+            }
+            if (clear) {
+                for (let i = 0; i < size; i++) {
+                    for (let j = 0; j < size; j++) {
+                        this.grid[i][yPlane][j] = false;
+                        this.blocks[i][yPlane][j].parent.remove(this.blocks[i][yPlane][j]);
+                        this.blocks[i][yPlane][j] = null;
+                    }
+                }
+                for (let i = 0; i < size; i++) {
+                    for (let j = 0; j < size; j++) {
+                        for (let k = yPlane + 1; k < size; k++){
+                            if (this.grid[i][k][j]){
+                                this.grid[i][k][j] = false;
+                                this.grid[i][k - 1][j] = true;
+                                const block = this.blocks[i][k][j];
+                                this.blocks[i][k][j] = null;
+                                block.position.y -= 2;
+                                this.blocks[i][k - 1][j] = block;
+                            }
+                        }
+                    }
+                }
+            }
+            else {
+                yPlane += 1;
+            }
+        }
+    }
+
     update(timeStamp) {
+        this.clearRows();
+        if (this.lastUpdate == 0) {
+          this.lastUpdate = timeStamp;
+        }
+        if (timeStamp - this.lastUpdate > 10000){
+            this.difficulty += 0.2;
+            this.lastUpdate = timeStamp;
+        }
         if (!this.current || this.current.locked) {
             let random = Math.floor(Math.random() * 7);
             if (random == 0){
