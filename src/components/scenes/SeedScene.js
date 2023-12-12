@@ -1,5 +1,5 @@
 import * as Dat from 'dat.gui';
-import { Scene, Color, Mesh } from 'three';
+import { Scene, Color, CSS2DObject } from 'three';
 import { Flower, Land } from 'objects';
 import { BasicLights } from 'lights';
 import Floor from '../objects/Floor/Floor';
@@ -140,7 +140,7 @@ class SeedScene extends Scene {
         }
         if (!this.pause){
             if (this.game == 1){
-                while (!this.current || this.current.locked) {
+                if (!this.current || this.current.locked) {
                     this.clearRows();
                     let random = Math.floor(Math.random() * 7);
                     if (random == 0 && this.state.TBlocks){
@@ -236,7 +236,13 @@ class SeedScene extends Scene {
         const rearwallmesh = new RearWallMesh(); 
         const leftwall = new LeftWall(); 
         const leftwallmesh = new LeftWallMesh();
-        this.add(lights, floor, floormesh, rearwall, rearwallmesh, leftwall, leftwallmesh);
+        const div = document.createElement('div');
+        div.className = 'label';
+        div.textContent = 'Simple Text Label';
+        div.style.marginTop = '-1em';
+        const label = new CSS2DObject(div);
+        label.position.set(0, 1, 0);
+        this.add(lights, floor, floormesh, rearwall, rearwallmesh, leftwall, leftwallmesh, label);
 
         const score = new Score(this);
         this.add(score);

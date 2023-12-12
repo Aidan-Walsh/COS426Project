@@ -1,4 +1,5 @@
 export { default as Block} from './Block.js';
+export { default as Shape} from './Shape.js';
 export { default as OBlock } from './OBlock.js';
 export { default as LBlock } from './LBlock.js';
 export { default as JBlock } from './JBlock.js';

@@ -1,16 +1,11 @@
 import { Group } from 'three';
-import { Block } from ".";
+import { Block, Shape } from ".";
 
 
-class TBlock extends Group {
+class TBlock extends Shape {
     constructor(parent, x,y,z) {
-        super();
-        this.items = [];
-        parent.addToUpdateList(this);
-        this.locked = false;
-        this.grid = parent.grid;
-        this.blocks = parent.blocks;
-        this.orientation = 0;
+        super(parent);
+
         this.items.push(new Block(parent, x, y, z, 5));
         this.items.push(new Block(parent, x, y + 1, z, 5));
         this.items.push(new Block(parent, x + 1, y, z, 5));
