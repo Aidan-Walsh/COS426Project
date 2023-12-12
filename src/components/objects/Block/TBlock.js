@@ -1,4 +1,3 @@
-import { Group } from 'three';
 import { Block, Shape } from ".";
 
 

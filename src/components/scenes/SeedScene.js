@@ -1,18 +1,15 @@
 import * as Dat from 'dat.gui';
 import { Scene, Color, TextureLoader } from 'three';
 
-import { Flower, Land } from 'objects';
 import { BasicLights } from 'lights';
 import Floor from '../objects/Floor/Floor';
 import { FloorMesh } from '../objects/FloorMesh';
 import { RearWall } from '../objects/RearWall';
 import { RearWallMesh } from '../objects/RearWallMesh';
-import { RightWall } from '../objects/RightWall';
 import { LeftWall } from '../objects/LeftWall';
 import { LeftWallMesh } from '../objects/LeftWallMesh';
-import { RightWallMesh } from '../objects/RightWallMesh';
-import { Block, OBlock, LBlock, JBlock, IBlock, SBlock, ZBlock, TBlock } from '../objects/Block';
-import { GameOver, Score } from '../objects/UI';
+import { OBlock, LBlock, JBlock, IBlock, SBlock, ZBlock, TBlock } from '../objects/Block';
+import { GameOver } from '../objects/UI';
 import { Font } from 'three/examples/jsm/loaders/FontLoader.js';
 
 class SeedScene extends Scene {
@@ -128,7 +125,9 @@ class SeedScene extends Scene {
         }
         if (this.score > this.highScore){
             this.highScore = this.score;
+            updateHighScore(Math.floor(this.highScore));
         }
+        updateScore(Math.floor(this.score));
     }
 
     update(timeStamp) {
@@ -182,15 +181,19 @@ class SeedScene extends Scene {
                         this.add(block);
                     }
                 }
-                const gameOver = this.current.update(timeStamp);
-                if (gameOver) {
-                    const block = new GameOver(this);
-                    this.current = block;
-                    this.add(block);
-                    this.game = 0;
+                if (this.current) {
+                    const gameOver = this.current.update(timeStamp);
+                    if (gameOver) {
+                        const block = new GameOver(this);
+                        this.current = block;
+                        this.add(block);
+                        this.game = 0;
+                    }
                 }
             }
-            this.current.update(timeStamp);
+            if (this.current) {
+                this.current.update(timeStamp);
+            }
         }
     }
 
@@ -200,7 +203,7 @@ class SeedScene extends Scene {
 
     // Event handler for keydown events
     handleKeyDown(event) {
-        if (!this.pause){
+        if (!this.pause && this.current){
             this.current.action(event);
         }
         if (event.code === "KeyP"){
@@ -240,10 +243,15 @@ class SeedScene extends Scene {
         const leftwall = new LeftWall(); 
         const leftwallmesh = new LeftWallMesh();
         this.add(lights, floor, floormesh, rearwall, rearwallmesh, leftwall, leftwallmesh);
-
-        const score = new Score(this);
-        this.add(score);
     }
+}
+
+function updateScore(newScore) {
+    document.getElementById('score').innerText = `Score: ${newScore}`;
+}
+
+function updateHighScore(newHighScore) {
+    document.getElementById('high-score').innerText = `High Score: ${newHighScore}`;
 }
 
 export default SeedScene;
