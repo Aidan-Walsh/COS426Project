@@ -1,5 +1,5 @@
 import * as Dat from 'dat.gui';
-import { Scene, Color, CSS2DObject } from 'three';
+import { Scene, Color } from 'three';
 import { Flower, Land } from 'objects';
 import { BasicLights } from 'lights';
 import Floor from '../objects/Floor/Floor';
@@ -236,13 +236,7 @@ class SeedScene extends Scene {
         const rearwallmesh = new RearWallMesh(); 
         const leftwall = new LeftWall(); 
         const leftwallmesh = new LeftWallMesh();
-        const div = document.createElement('div');
-        div.className = 'label';
-        div.textContent = 'Simple Text Label';
-        div.style.marginTop = '-1em';
-        const label = new CSS2DObject(div);
-        label.position.set(0, 1, 0);
-        this.add(lights, floor, floormesh, rearwall, rearwallmesh, leftwall, leftwallmesh, label);
+        this.add(lights, floor, floormesh, rearwall, rearwallmesh, leftwall, leftwallmesh);
 
         const score = new Score(this);
         this.add(score);
