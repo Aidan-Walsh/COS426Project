@@ -14,6 +14,7 @@ import { SeedScene } from 'scenes';
 const scene = new SeedScene();
 const camera = new PerspectiveCamera();
 const renderer = new WebGLRenderer({ antialias: true });
+createScoreDisplay();
 
 // Set up camera
 camera.position.set(0, 10, 25);
@@ -54,3 +55,32 @@ const windowResizeHandler = () => {
 };
 windowResizeHandler();
 window.addEventListener('resize', windowResizeHandler, false);
+
+function createScoreDisplay() {
+    // Create container for score and high score
+    const scoreContainer = document.createElement('div');
+    scoreContainer.id = 'score-container';
+    scoreContainer.style.position = 'absolute';
+    scoreContainer.style.top = '10px';
+    scoreContainer.style.left = '10px';
+    scoreContainer.style.color = 'white';
+    scoreContainer.style.fontFamily = 'Arial, sans-serif';
+    scoreContainer.style.zIndex = '1';
+
+    // Create score element
+    const scoreElement = document.createElement('div');
+    scoreElement.id = 'score';
+    scoreElement.innerText = 'Score: 0';
+    scoreElement.style.fontSize = '2em';
+    scoreContainer.appendChild(scoreElement);
+
+    // Create high score element
+    const highScoreElement = document.createElement('div');
+    highScoreElement.id = 'high-score';
+    highScoreElement.innerText = 'High Score: 0';
+    highScoreElement.style.fontSize = '2em';
+    scoreContainer.appendChild(highScoreElement);
+
+    // Add the container to the body
+    document.body.appendChild(scoreContainer);
+}
