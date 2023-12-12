@@ -41,7 +41,9 @@ class TBlock extends Group {
                     let x = (block.position.x + 5)/2;
                     let y = (block.position.y + 4)/2;
                     let z = (block.position.z + 11)/2;
-                    this.grid[x][y][z] = true;
+                    
+                    try {this.grid[x][y][z] = true;}
+                    catch(error) {return true;}
                 }
             }
         }
