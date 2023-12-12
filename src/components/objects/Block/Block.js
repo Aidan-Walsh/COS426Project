@@ -8,7 +8,7 @@ class Block extends Group {
     constructor(parent, x,y,z, color_num, difficulty) {
         // Call parent Group() constructor
         super();
-
+        console.log(parent); 
         // difficulty ranges from 0 to INF, each level increases speed by 10%
         this.difficulty = difficulty; 
 
@@ -261,7 +261,7 @@ class Block extends Group {
       for (let i = 0; i < this.difficulty; i++) {
         original_difficulty -= (original_difficulty/10);
       }
-      if (this.position.y > -15) { // this -6 is relative to where it starts
+      if (this.position.y > -4) { // this -6 is relative to where it starts
         this.position.y -= timeStamp/original_difficulty; 
       }
       

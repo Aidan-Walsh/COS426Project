@@ -41,9 +41,17 @@ class SeedScene extends Scene {
         const rightwallmesh = new RightWallMesh(); 
         const block = new Block(this, 0,0,0,0); // at 0,0 on grid, at height 0, and color is 0 (red)
 
-   
+
+        let heights = [];
+        for (let i = 0; i < 6; i++) {
+            heights[i] = []; 
+            for (let j = 0; j < 6; j++) {
+                
+            }
+        }
         
         this.add(lights,  floor, floormesh, rearwall, rearwallmesh, rightwall, leftwall, leftwallmesh, rightwallmesh, block);
+        this.add
         
 
         // Populate GUI
