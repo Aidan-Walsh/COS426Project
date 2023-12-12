@@ -1,5 +1,6 @@
 import * as Dat from 'dat.gui';
-import { Scene, Color } from 'three';
+import { Scene, Color, TextureLoader } from 'three';
+
 import { BasicLights } from 'lights';
 import Floor from '../objects/Floor/Floor';
 import { FloorMesh } from '../objects/FloorMesh';
@@ -18,6 +19,8 @@ class SeedScene extends Scene {
 
         // Set background to a nice color
         this.background = new Color(0x7ec0ee);
+        const loader = new TextureLoader(); 
+        this.background = loader.load("https://threejs.org/examples/textures/uv_grid_opengl.jpg"); 
         this.highScore = 0;
         this.size = 6;
 

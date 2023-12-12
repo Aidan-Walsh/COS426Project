@@ -130,6 +130,12 @@ class Block extends Group {
         if (timeStamp - this.lastUpdate > 2000 / this.difficulty){
           if (willCollide){
             this.locked = true;
+
+            // remove shadow after landing
+            for (let i = 2; i < this.children.length; i++) {
+              this.remove(this.children[i]); 
+            }
+
           }
           else {
             this.position.y -= 2;
