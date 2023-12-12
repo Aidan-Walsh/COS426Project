@@ -10,7 +10,7 @@ import { RightWall } from '../objects/RightWall';
 import { LeftWall } from '../objects/LeftWall';
 import { LeftWallMesh } from '../objects/LeftWallMesh';
 import { RightWallMesh } from '../objects/RightWallMesh';
-import { Block } from '../objects/Block';
+import { Block, OBlock, LBlock, JBlock, IBlock, SBlock, ZBlock, TBlock } from '../objects/Block';
 
 class SeedScene extends Scene {
     constructor() {
@@ -19,43 +19,44 @@ class SeedScene extends Scene {
 
         // Init state
         this.state = {
-           // gui: new Dat.GUI(), // Create GUI for scene
-            rotationSpeed: 0,
             updateList: [],
         };
 
         // Set background to a nice color
         this.background = new Color(0x7ec0ee);
 
+        const size = 6;
+        let array = new Array(size);
+
+        for (let i = 0; i < size; i++) {
+            array[i] = new Array(size);
+            for (let j = 0; j < size; j++) {
+                array[i][j] = new Array(size);
+                for (let k = 0; k < size; k++) {
+                    array[i][j][k] = false;
+                }
+            }
+        }
+
+        this.grid = array;
+        this.blocks = [];
+        this.difficulty = 1;
+
         // Add meshes to scene
-       //  const land = new Land();
-     //  const flower = new Flower(this);
         const lights = new BasicLights();
         const floor = new Floor(this); 
         const floormesh = new FloorMesh(); 
         const rearwall = new RearWall(); 
         const rearwallmesh = new RearWallMesh(); 
-        const rightwall = new RightWall(); 
+        //const rightwall = new RightWall(); 
         const leftwall = new LeftWall(); 
         const leftwallmesh = new LeftWallMesh();
-        const rightwallmesh = new RightWallMesh(); 
-        const block = new Block(this, 0,0,0,0); // at 0,0 on grid, at height 0, and color is 0 (red)
-
-
-        let heights = [];
-        for (let i = 0; i < 6; i++) {
-            heights[i] = []; 
-            for (let j = 0; j < 6; j++) {
-                
-            }
-        }
+        //const rightwallmesh = new RightWallMesh(); 
+   
+        this.current = null;
+        this.add(lights, floor, floormesh, rearwall, rearwallmesh, leftwall, leftwallmesh);
         
-        this.add(lights,  floor, floormesh, rearwall, rearwallmesh, rightwall, leftwall, leftwallmesh, rightwallmesh, block);
-        this.add
-        
-
-        // Populate GUI
-       // this.state.gui.add(this.state, 'rotationSpeed', -5, 5);
+        this.setupEventListeners();
     }
 
     addToUpdateList(object) {
@@ -63,14 +64,54 @@ class SeedScene extends Scene {
     }
 
     update(timeStamp) {
-        const { rotationSpeed, updateList } = this.state;
-        this.rotation.y = (rotationSpeed * timeStamp) / 10000;
-
-        // Call update for each object in the updateList
-   
-        for (const obj of updateList) {
-            obj.update(timeStamp);
+        if (!this.current || this.current.locked) {
+            let random = Math.floor(Math.random() * 7);
+            if (random == 0){
+                const block = new IBlock(this, 2,0,0,0);
+                this.current = block;
+                this.add(block);
+            }
+            if (random == 1){
+                const block = new JBlock(this, 2,0,0,0);
+                this.current = block;
+                this.add(block);
+            }
+            if (random == 2){
+                const block = new LBlock(this, 2,0,0,0);
+                this.current = block;
+                this.add(block);
+            }
+            if (random == 3){
+                const block = new OBlock(this, 2,0,0,0);
+                this.current = block;
+                this.add(block);
+            }
+            if (random == 4){
+                const block = new SBlock(this, 2,0,0,0);
+                this.current = block;
+                this.add(block);
+            }
+            if (random == 5){
+                const block = new TBlock(this, 2,0,0,0);
+                this.current = block;
+                this.add(block);
+            }
+            if (random == 6){
+                const block = new ZBlock(this, 2,0,0,0);
+                this.current = block;
+                this.add(block);
+            }
         }
+        this.current.update(timeStamp);
+    }
+
+    setupEventListeners() {
+        window.addEventListener('keydown', (e) => this.handleKeyDown(e));
+    }
+
+    // Event handler for keydown events
+    handleKeyDown(event) {
+        this.current.action(event);
     }
 }
 
