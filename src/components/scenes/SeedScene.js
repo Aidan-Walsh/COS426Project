@@ -145,6 +145,7 @@ class SeedScene extends Scene {
                 if (!this.current || this.current.locked) {
                     this.clearRows();
                     let random = Math.floor(Math.random() * 7);
+                    random = 2;
                     if (random == 0 && this.state.TBlocks){
                         const block = new TBlock(this, 2,0,0,0);
                         this.current = block;

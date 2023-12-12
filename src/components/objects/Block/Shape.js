@@ -9,7 +9,10 @@ class Shape extends Group {
         this.locked = false;
         this.grid = parent.grid;
         this.blocks = parent.blocks;
+
         this.orientation = 0;
+        this.relative = [];
+
         this.items = [];
     }
 
@@ -129,6 +132,8 @@ class Shape extends Group {
         if (blocks[0].x > 0 && this.items[0].position.x >= blocks[0].x) return false;
         if (blocks[0].y < 0 && this.items[0].position.y <= blocks[0].y) return false;
         if (blocks[0].y > 0 && this.items[0].position.y >= blocks[0].y) return false;
+        if (blocks[0].z < 0 && this.items[0].position.z <= blocks[0].z) return false;
+        if (blocks[0].z > 0 && this.items[0].position.z >= blocks[0].z) return false;
 
         if (this.items[1].checkCollision(this.items[1], blocks[1].x, blocks[1].y, 0)) return false;
         if (this.items[2].checkCollision(this.items[2], blocks[2].x, blocks[2].y, 0)) return false;
