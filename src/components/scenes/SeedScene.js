@@ -11,6 +11,7 @@ import { LeftWall } from '../objects/LeftWall';
 import { LeftWallMesh } from '../objects/LeftWallMesh';
 import { RightWallMesh } from '../objects/RightWallMesh';
 import { Block, OBlock, LBlock, JBlock, IBlock, SBlock, ZBlock, TBlock } from '../objects/Block';
+import { GameOver } from '../objects/UI';
 
 class SeedScene extends Scene {
     constructor() {
@@ -41,6 +42,7 @@ class SeedScene extends Scene {
         this.grid = array;
         this.blocks = [];
         this.difficulty = 1;
+        this.game = 1;
 
         // Add meshes to scene
         const lights = new BasicLights();
@@ -64,47 +66,54 @@ class SeedScene extends Scene {
     }
 
     update(timeStamp) {
-        if (!this.current || this.current.locked) {
-            let random = Math.floor(Math.random() * 7);
-            if (random == 0){
-                const block = new IBlock(this, 2,0,0,0);
-                this.current = block;
-                this.add(block);
+        if (this.game == 1) {
+            if (!this.current || this.current.locked) {
+                let random = Math.floor(Math.random() * 7);
+                if (random == 0){
+                    const block = new IBlock(this, 2,0,0,0);
+                    this.current = block;
+                    this.add(block);
+                }
+                if (random == 1){
+                    const block = new JBlock(this, 2,0,0,0);
+                    this.current = block;
+                    this.add(block);
+                }
+                if (random == 2){
+                    const block = new LBlock(this, 2,0,0,0);
+                    this.current = block;
+                    this.add(block);
+                }
+                if (random == 3){
+                    const block = new OBlock(this, 2,0,0,0);
+                    this.current = block;
+                    this.add(block);
+                }
+                if (random == 4){
+                    const block = new SBlock(this, 2,0,0,0);
+                    this.current = block;
+                    this.add(block);
+                }
+                if (random == 5){
+                    const block = new TBlock(this, 2,0,0,0);
+                    this.current = block;
+                    this.add(block);
+                }
+                if (random == 6){
+                    const block = new ZBlock(this, 2,0,0,0);
+                    this.current = block;
+                    this.add(block);
+                }
             }
-            if (random == 1){
-                const block = new JBlock(this, 2,0,0,0);
+            const gameOver = this.current.update(timeStamp);
+            if (gameOver) 
+            {
+                const block = new GameOver();
                 this.current = block;
                 this.add(block);
-            }
-            if (random == 2){
-                const block = new LBlock(this, 2,0,0,0);
-                this.current = block;
-                this.add(block);
-            }
-            if (random == 3){
-                const block = new OBlock(this, 2,0,0,0);
-                this.current = block;
-                this.add(block);
-            }
-            if (random == 4){
-                const block = new SBlock(this, 2,0,0,0);
-                this.current = block;
-                this.add(block);
-            }
-            if (random == 5){
-                const block = new TBlock(this, 2,0,0,0);
-                this.current = block;
-                this.add(block);
-            }
-            if (random == 6){
-                const block = new ZBlock(this, 2,0,0,0);
-                this.current = block;
-                this.add(block);
+                this.game = 0;
             }
         }
-        
-        const gameOver = this.current.update(timeStamp);
-        if (gameOver) console.log("Game over");
     }
 
     setupEventListeners() {
