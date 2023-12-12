@@ -10,7 +10,7 @@ import { RightWall } from '../objects/RightWall';
 import { LeftWall } from '../objects/LeftWall';
 import { LeftWallMesh } from '../objects/LeftWallMesh';
 import { RightWallMesh } from '../objects/RightWallMesh';
-import { Block } from '../objects/Block';
+import { Block, OBlock, LBlock, JBlock, IBlock, SBlock, ZBlock, TBlock } from '../objects/Block';
 
 class SeedScene extends Scene {
     constructor() {
@@ -19,17 +19,30 @@ class SeedScene extends Scene {
 
         // Init state
         this.state = {
-           // gui: new Dat.GUI(), // Create GUI for scene
-            rotationSpeed: 0,
             updateList: [],
         };
 
         // Set background to a nice color
         this.background = new Color(0x7ec0ee);
 
+        const size = 6;
+        let array = new Array(size);
+
+        for (let i = 0; i < size; i++) {
+            array[i] = new Array(size);
+            for (let j = 0; j < size; j++) {
+                array[i][j] = new Array(size);
+                for (let k = 0; k < size; k++) {
+                    array[i][j][k] = false;
+                }
+            }
+        }
+
+        this.grid = array;
+        this.blocks = [];
+        this.difficulty = 1;
+
         // Add meshes to scene
-       //  const land = new Land();
-     //  const flower = new Flower(this);
         const lights = new BasicLights();
         const floor = new Floor(this); 
         const floormesh = new FloorMesh(); 
@@ -39,15 +52,12 @@ class SeedScene extends Scene {
         const leftwall = new LeftWall(); 
         const leftwallmesh = new LeftWallMesh();
         const rightwallmesh = new RightWallMesh(); 
-        const block = new Block(this, 0,0,0,0); // at 0,0 on grid, at height 0, and color is 0 (red)
-
+        const block = new TBlock(this, 2,0,0,0);
    
-        
+        this.current = block;
         this.add(lights,  floor, floormesh, rearwall, rearwallmesh, rightwall, leftwall, leftwallmesh, rightwallmesh, block);
         
-
-        // Populate GUI
-       // this.state.gui.add(this.state, 'rotationSpeed', -5, 5);
+        this.setupEventListeners();
     }
 
     addToUpdateList(object) {
@@ -55,14 +65,23 @@ class SeedScene extends Scene {
     }
 
     update(timeStamp) {
-        const { rotationSpeed, updateList } = this.state;
-        this.rotation.y = (rotationSpeed * timeStamp) / 10000;
-
-        // Call update for each object in the updateList
+        const { updateList } = this.state;
    
         for (const obj of updateList) {
             obj.update(timeStamp);
         }
+    }
+
+    setupEventListeners() {
+        window.addEventListener('keydown', (e) => this.handleKeyDown(e));
+    }
+
+    // Event handler for keydown events
+    handleKeyDown(event) {
+        console.log(`Key pressed: ${event.key}`);
+        // Add your logic here to handle key presses
+        // For example, you could check if a specific key was pressed and act accordingly
+        this.current.action(event);
     }
 }
 
