@@ -123,6 +123,25 @@ class Shape extends Group {
             }
         }
     }
+
+    rotate(blocks) {
+        if (blocks[0].x < 0 && this.items[0].position.x <= blocks[0].x) return false;
+        if (blocks[0].x > 0 && this.items[0].position.x >= blocks[0].x) return false;
+        if (blocks[0].y < 0 && this.items[0].position.y <= blocks[0].y) return false;
+        if (blocks[0].y > 0 && this.items[0].position.y >= blocks[0].y) return false;
+
+        if (this.items[1].checkCollision(this.items[1], blocks[1].x, blocks[1].y, 0)) return false;
+        if (this.items[2].checkCollision(this.items[2], blocks[2].x, blocks[2].y, 0)) return false;
+        if (this.items[3].checkCollision(this.items[3], blocks[3].x, blocks[3].y, 0)) return false;
+
+        this.items[1].position.x += 2 * blocks[1].x;
+        this.items[1].position.y += 2 * blocks[1].y;
+        this.items[2].position.x += 2 * blocks[2].x;
+        this.items[2].position.y += 2 * blocks[2].y;
+        this.items[3].position.x += 2 * blocks[3].x;
+        this.items[3].position.y += 2 * blocks[3].y;
+        return true;
+    }
 }
 
 export default Shape;
