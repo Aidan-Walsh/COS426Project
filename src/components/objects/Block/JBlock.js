@@ -56,9 +56,7 @@ class JBlock extends Group {
                         block.remove(block.children[j]); 
                 }
 
-
-                    for (let i = 0; i < block.children.length; i++) { // change opacity at bottom
-
+                
                     try {
                         this.grid[x][y][z] = true;
                         this.blocks[x][y][z] = block;
