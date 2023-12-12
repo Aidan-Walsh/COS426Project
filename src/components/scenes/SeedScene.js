@@ -18,57 +18,25 @@ class SeedScene extends Scene {
         // Call parent Scene() constructor
         super();
 
-        // Init state
-        this.state = {
-            updateList: [],
-        };
-
         // Set background to a nice color
         this.background = new Color(0x7ec0ee);
 
-        const size = 6;
-        let grid = new Array(size);
-        for (let i = 0; i < size; i++) {
-            grid[i] = new Array(size);
-            for (let j = 0; j < size; j++) {
-                grid[i][j] = new Array(size);
-                for (let k = 0; k < size; k++) {
-                    grid[i][j][k] = false;
-                }
+        this.size = 6;
+
+        this.grid = new Array(this.size);
+        this.blocks = new Array(this.size);
+        for (let i = 0; i < this.size; i++) {
+            this.grid[i] = new Array(this.size);
+            this.blocks[i] = new Array(this.size);
+            for (let j = 0; j < this.size; j++) {
+                this.grid[i][j] = new Array(this.size);
+                this.blocks[i][j] = new Array(this.size);
             }
         }
-        let blocks = new Array(size);
-        for (let i = 0; i < size; i++) {
-            blocks[i] = new Array(size);
-            for (let j = 0; j < size; j++) {
-                blocks[i][j] = new Array(size);
-                for (let k = 0; k < size; k++) {
-                    blocks[i][j][k] = null;
-                }
-            }
-        }
-
-        this.grid = grid;
-        this.blocks = blocks;
-        this.difficulty = 1;
-        this.lastUpdate = 0;
-        this.game = 1;
-
-        // Add meshes to scene
-        const lights = new BasicLights();
-        const floor = new Floor(this); 
-        const floormesh = new FloorMesh(); 
-        const rearwall = new RearWall(); 
-        const rearwallmesh = new RearWallMesh(); 
-        //const rightwall = new RightWall(); 
-        const leftwall = new LeftWall(); 
-        const leftwallmesh = new LeftWallMesh();
-        //const rightwallmesh = new RightWallMesh();
-   
-        this.current = null;
-        this.add(lights, floor, floormesh, rearwall, rearwallmesh, leftwall, leftwallmesh);
         
         this.setupEventListeners();
+        
+        this.reset();
     }
 
     addToUpdateList(object) {
@@ -133,7 +101,7 @@ class SeedScene extends Scene {
             if (!this.current || this.current.locked) {
                 let random = Math.floor(Math.random() * 7);
                 if (random == 0){
-                    const block = new IBlock(this, 2,0,0,0);
+                    const block = new TBlock(this, 2,0,0,0);
                     this.current = block;
                     this.add(block);
                 }
@@ -153,12 +121,12 @@ class SeedScene extends Scene {
                     this.add(block);
                 }
                 if (random == 4){
-                    const block = new SBlock(this, 2,0,0,0);
+                    const block = new IBlock(this, 2,0,0,0);
                     this.current = block;
                     this.add(block);
                 }
                 if (random == 5){
-                    const block = new TBlock(this, 2,0,0,0);
+                    const block = new SBlock(this, 2,0,0,0);
                     this.current = block;
                     this.add(block);
                 }
@@ -170,7 +138,7 @@ class SeedScene extends Scene {
             }
             const gameOver = this.current.update(timeStamp);
             if (gameOver) {
-                const block = new GameOver();
+                const block = new GameOver(this);
                 this.current = block;
                 this.add(block);
                 this.game = 0;
@@ -186,6 +154,41 @@ class SeedScene extends Scene {
     // Event handler for keydown events
     handleKeyDown(event) {
         this.current.action(event);
+    }
+
+    reset() {
+        this.current = null;
+        this.game = 1;
+
+        for (let i = this.children.length - 1; i >= 0; i--) {
+            this.remove(this.children[i]);
+        }
+
+        for (let i = 0; i < this.size; i++) {
+            for (let j = 0; j < this.size; j++) {
+                for (let k = 0; k < this.size; k++) {
+                    this.grid[i][j][k] = false;
+                    this.blocks[i][j][k] = null;
+                }
+            }
+        }
+
+        this.state = {
+            updateList: [],
+        };
+
+        this.difficulty = 1;
+        this.lastUpdate = 0;
+
+        const lights = new BasicLights();
+        const floor = new Floor(this); 
+        const floormesh = new FloorMesh(); 
+        const rearwall = new RearWall(); 
+        const rearwallmesh = new RearWallMesh(); 
+        const leftwall = new LeftWall(); 
+        const leftwallmesh = new LeftWallMesh();
+   
+        this.add(lights, floor, floormesh, rearwall, rearwallmesh, leftwall, leftwallmesh);
     }
 }
 

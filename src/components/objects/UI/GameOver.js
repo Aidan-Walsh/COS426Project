@@ -7,12 +7,14 @@ import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry.js';
 
 
 class GameOver extends Group {
-    constructor() {
+    constructor(parent) {
         // Call parent Group() constructor
         super();
 
         this.name = 'gameover';
         this.locked = false;
+        this.parent = parent;
+
         const black = new Color(0x00000);
 
         const fontJson = require( "three/examples/fonts/gentilis_bold.typeface.json" );
@@ -36,7 +38,9 @@ class GameOver extends Group {
     }
 
     action(event){
-
+      if (event.code === "Space"){
+        this.parent.reset();
+      }
     }
 }
 
