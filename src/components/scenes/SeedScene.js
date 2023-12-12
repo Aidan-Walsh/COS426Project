@@ -89,62 +89,66 @@ class SeedScene extends Scene {
     }
 
     update(timeStamp) {
-        this.clearRows();
         if (this.lastUpdate == 0) {
           this.lastUpdate = timeStamp;
         }
         if (timeStamp - this.lastUpdate > 10000){
-            this.difficulty += 0.2;
+            if (!this.pause){
+                this.difficulty += 0.1;
+            }
             this.lastUpdate = timeStamp;
         }
-        if (this.game == 1){
-            if (!this.current || this.current.locked) {
-                let random = Math.floor(Math.random() * 7);
-                if (random == 0){
-                    const block = new TBlock(this, 2,0,0,0);
-                    this.current = block;
-                    this.add(block);
+        if (!this.pause){
+            if (this.game == 1){
+                if (!this.current || this.current.locked) {
+                    this.clearRows();
+                    let random = Math.floor(Math.random() * 7);
+                    if (random == 0){
+                        const block = new TBlock(this, 2,0,0,0);
+                        this.current = block;
+                        this.add(block);
+                    }
+                    if (random == 1){
+                        const block = new JBlock(this, 2,0,0,0);
+                        this.current = block;
+                        this.add(block);
+                    }
+                    if (random == 2){
+                        const block = new LBlock(this, 2,0,0,0);
+                        this.current = block;
+                        this.add(block);
+                    }
+                    if (random == 3){
+                        const block = new OBlock(this, 2,0,0,0);
+                        this.current = block;
+                        this.add(block);
+                    }
+                    if (random == 4){
+                        const block = new IBlock(this, 2,0,0,0);
+                        this.current = block;
+                        this.add(block);
+                    }
+                    if (random == 5){
+                        const block = new SBlock(this, 2,0,0,0);
+                        this.current = block;
+                        this.add(block);
+                    }
+                    if (random == 6){
+                        const block = new ZBlock(this, 2,0,0,0);
+                        this.current = block;
+                        this.add(block);
+                    }
                 }
-                if (random == 1){
-                    const block = new JBlock(this, 2,0,0,0);
+                const gameOver = this.current.update(timeStamp);
+                if (gameOver) {
+                    const block = new GameOver(this);
                     this.current = block;
                     this.add(block);
-                }
-                if (random == 2){
-                    const block = new LBlock(this, 2,0,0,0);
-                    this.current = block;
-                    this.add(block);
-                }
-                if (random == 3){
-                    const block = new OBlock(this, 2,0,0,0);
-                    this.current = block;
-                    this.add(block);
-                }
-                if (random == 4){
-                    const block = new IBlock(this, 2,0,0,0);
-                    this.current = block;
-                    this.add(block);
-                }
-                if (random == 5){
-                    const block = new SBlock(this, 2,0,0,0);
-                    this.current = block;
-                    this.add(block);
-                }
-                if (random == 6){
-                    const block = new ZBlock(this, 2,0,0,0);
-                    this.current = block;
-                    this.add(block);
+                    this.game = 0;
                 }
             }
-            const gameOver = this.current.update(timeStamp);
-            if (gameOver) {
-                const block = new GameOver(this);
-                this.current = block;
-                this.add(block);
-                this.game = 0;
-            }
+            this.current.update(timeStamp);
         }
-        this.current.update(timeStamp);
     }
 
     setupEventListeners() {
@@ -153,11 +157,17 @@ class SeedScene extends Scene {
 
     // Event handler for keydown events
     handleKeyDown(event) {
-        this.current.action(event);
+        if (!this.pause){
+            this.current.action(event);
+        }
+        if (event.code === "KeyP"){
+            this.pause = !this.pause;
+        }
     }
 
     reset() {
         this.current = null;
+        this.pause = false;
         this.game = 1;
 
         for (let i = this.children.length - 1; i >= 0; i--) {

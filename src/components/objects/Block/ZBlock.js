@@ -24,7 +24,7 @@ class ZBlock extends Group {
         if (!this.locked){
             let willCollde = false;
             for(const block of this.items){
-                if (block.checkCollision(block, 0, -1, 0)){
+                if (block.checkCollision(block, 0, -1, 0) || block.position.y == -4){
                     willCollde = true;
                 }
             }
