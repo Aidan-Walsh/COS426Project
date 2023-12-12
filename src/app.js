@@ -16,7 +16,7 @@ const camera = new PerspectiveCamera();
 const renderer = new WebGLRenderer({ antialias: true });
 
 // Set up camera
-camera.position.set(-0.2, 15, 25);
+camera.position.set(0, 10, 25);
 camera.lookAt(new Vector3(0, 0, 0));
 
 
@@ -33,9 +33,8 @@ document.body.appendChild(canvas);
 const controls = new OrbitControls(camera, canvas);
 controls.enableDamping = true;
 controls.enablePan = false;
-controls.minDistance = 0;
-controls.maxDistance = 20;
-
+controls.minDistance = 4;
+controls.maxDistance = 50;
 controls.update();
 
 // Render loop

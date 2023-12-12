@@ -126,23 +126,14 @@ class Block extends Group {
         if (this.lastUpdate == 0) {
           this.lastUpdate = timeStamp;
         }
-        if (this.position.y > -4) {
-          if (timeStamp - this.lastUpdate > 2000 / this.difficulty){
-            if (willCollide){
-              this.locked = true;
-
-            }
-            else {
-              this.position.y -= 2;
-              this.lastUpdate = timeStamp;
-            }
+        if (timeStamp - this.lastUpdate > 2000 / this.difficulty){
+          if (willCollide){
+            this.locked = true;
           }
-        }
-        else {
-          this.locked = true;
-
-
-
+          else {
+            this.position.y -= 2;
+            this.lastUpdate = timeStamp;
+          }
         }
       }
       

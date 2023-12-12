@@ -9,6 +9,7 @@ class TBlock extends Group {
         parent.addToUpdateList(this);
         this.locked = false;
         this.grid = parent.grid;
+        this.blocks = parent.blocks;
         this.orientation = 0;
         this.items.push(new Block(parent, x, y, z, 5));
         this.items.push(new Block(parent, x, y + 1, z, 5));
@@ -23,7 +24,7 @@ class TBlock extends Group {
         if (!this.locked){
             let willCollde = false;
             for(const block of this.items){
-                if (block.checkCollision(block, 0, -1, 0)){
+                if (block.checkCollision(block, 0, -1, 0) || block.position.y == -4){
                     willCollde = true;
                 // remove shadow children if about to collide
                 for (let j = 2; j < block.children.length; j++) {
@@ -46,19 +47,23 @@ class TBlock extends Group {
                     let y = (block.position.y + 4)/2;
                     let z = (block.position.z + 11)/2;
 
+
                     // remove all previous children that are not the edges and cube, which are 0 and 1 indices
                     // to get rid of shadow when it lands
                     for (let j = 2; j < block.children.length; j++) {
                         block.remove(block.children[j]); 
                 }
 
-                    try {this.grid[x][y][z] = true;}
-                    catch(error) {return true;}
-                            for (let i = 0; i < block.children.length; i++) { // change opacity at bottom
-                                block.children[i].material.transparent= true; 
-                               block.children[i].material.opacity = 0.4; 
-                             }
+                    try {
+                        this.grid[x][y][z] = true;
+                        this.blocks[x][y][z] = block;
+                    }
 
+                    catch(error) {return true;}
+                    for (let i = 0; i < block.children.length; i++) {
+                        block.children[i].material.transparent= true; 
+                        block.children[i].material.opacity = 0.4; 
+                    }
                 }
             }
         }
