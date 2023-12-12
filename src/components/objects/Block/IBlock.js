@@ -1,5 +1,5 @@
 import { Block, Shape } from ".";
-
+import { Vector3 } from 'three';
 
 class IBlock extends Shape {
     constructor(parent, x,y,z) {
