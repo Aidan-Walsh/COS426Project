@@ -1,15 +1,10 @@
 import { Group } from 'three';
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
-import { PlaneGeometry, MeshBasicMaterial, Mesh, DoubleSide, Line, Color, Vector3, BufferGeometry, BufferAttribute} from 'three';
-
-
+import { MeshBasicMaterial, DoubleSide, Line, Color, BufferGeometry, BufferAttribute} from 'three';
 
 class FloorMesh extends Group {
     constructor() {
         // Call parent Group() constructor
         super();
-
-      
 
         this.name = 'floormesh';
         const color = new Color(0x39FF14);
@@ -25,15 +20,12 @@ class FloorMesh extends Group {
         const geometry10 = new BufferGeometry(); 
         const geometry11 = new BufferGeometry(); 
  
-
-
         // vertical lines
         const line1V = new Float32Array([-4, -5, 0, -4, -5, -12]); 
         const line2V = new Float32Array([-2, -5, 0, -2, -5, -12]); 
         const line3V = new Float32Array([0, -5, 0, 0, -5, -12]); 
         const line4V = new Float32Array([2, -5, 0, 2, -5, -12]); 
         const line5V = new Float32Array([4, -5, 0, 4, -5, -12]); 
-       
 
         // horizontal lines
         const line6V = new Float32Array([-6, -5, -2, 6, -5, -2]); 
@@ -41,19 +33,7 @@ class FloorMesh extends Group {
         const line8V = new Float32Array([-6, -5, -6, 6, -5, -6]); 
         const line9V = new Float32Array([-6, -5, -8, 6, -5, -8]); 
         const line10V = new Float32Array([-6, -5, -10,6, -5, -10]); 
-        const line11V = new Float32Array([-6,-5,0, 6,-5,0]); 
-
-
-        const vertices = new Float32Array([
-            -6,-5,0, //v1 bottom left vertex
-    6,-5,0, // v2 bottom right vertex
-    -6,-5,-12, // v3 triangle 1
-    -6,-5, -12, // v4 top left vertex
-    6,-5,0, // v5
-     6,-5,-12   // v6 top right vertex
-    ]);
-
-    // square is at y = -5 and is 6x5
+        const line11V = new Float32Array([-6,-5,0, 6,-5,0]);
 
         geometry1.setAttribute('position', new BufferAttribute(line1V, 3)); 
         geometry2.setAttribute('position', new BufferAttribute(line2V, 3)); 
@@ -88,21 +68,8 @@ class FloorMesh extends Group {
         this.add(line8); 
         this.add(line9);
         this.add(line10); 
-        this.add(line11); 
-
-
-   
-        
-       // this.add(plane);
-
-
-
-
-
-        
+        this.add(line11);
     }
-
-
 }
 
 export default FloorMesh;

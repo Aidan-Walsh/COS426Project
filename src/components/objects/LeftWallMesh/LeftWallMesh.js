@@ -1,6 +1,5 @@
 import { Group } from 'three';
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
-import { PlaneGeometry, MeshBasicMaterial, Mesh, DoubleSide, Line, Color, Vector3, BufferGeometry, BufferAttribute} from 'three';
+import { MeshBasicMaterial, DoubleSide, Line, Color, BufferGeometry, BufferAttribute} from 'three';
 
 
 
@@ -8,8 +7,6 @@ class LeftWallMesh extends Group {
     constructor() {
         // Call parent Group() constructor
         super();
-
-      
 
         this.name = 'rearwallmesh';
         const color = new Color(0x39FF14); // neon green
@@ -26,11 +23,6 @@ class LeftWallMesh extends Group {
         const geometry11 = new BufferGeometry(); 
         const geometry12 = new BufferGeometry(); 
 
-
-      
-  
-
-
         // vertical lines
         const line1V = new Float32Array([-6, -5,-2, -6, 7, -2]); 
         const line2V = new Float32Array([-6, -5,-4, -6, 7, -4]); 
@@ -46,10 +38,6 @@ class LeftWallMesh extends Group {
         const line9V = new Float32Array([-6, -1, 0, -6, -1, -12]); 
         const line10V = new Float32Array([-6, -3, 0,-6, -3, -12]); 
         const line12V = new Float32Array([-6, -5,0, -6,-5,-12]); 
-        
-
-
-       
 
         geometry1.setAttribute('position', new BufferAttribute(line1V, 3)); 
         geometry2.setAttribute('position', new BufferAttribute(line2V, 3)); 
@@ -88,20 +76,7 @@ class LeftWallMesh extends Group {
         this.add(line10); 
         this.add(line11); 
         this.add(line12); 
-
-
-   
-        
-       // this.add(plane);
-
-
-
-
-
-        
     }
-
-
 }
 
 export default LeftWallMesh;

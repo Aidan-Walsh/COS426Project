@@ -1,15 +1,10 @@
 import { Group } from 'three';
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
-import { PlaneGeometry, MeshBasicMaterial, Mesh, DoubleSide, Line, Color, Vector3, BufferGeometry, BufferAttribute} from 'three';
-
-
+import { MeshBasicMaterial, DoubleSide, Line, Color, BufferGeometry, BufferAttribute} from 'three';
 
 class RearWallMesh extends Group {
     constructor() {
         // Call parent Group() constructor
         super();
-
-      
 
         this.name = 'rearwallmesh';
         const color = new Color(0x39FF14); // neon green
@@ -22,20 +17,7 @@ class RearWallMesh extends Group {
         const geometry7 = new BufferGeometry(); 
         const geometry8 = new BufferGeometry(); 
         const geometry9 = new BufferGeometry(); 
-        const geometry10 = new BufferGeometry(); 
-
-
-
-    const vertices = new Float32Array([
-
-        -6,-5, -12, // v1 bottom left vertex
-        6,7,-12, // v2 top right vertex
-        6,-5,-12,    // v3 bottom right vertex
-        -6,-5, -12, // v4
-        6,7,-12, // v5
-        -6, 7, -12 // v6 top left vertex
-        
-        ]);
+        const geometry10 = new BufferGeometry();
 
         // vertical lines
         const line1V = new Float32Array([-4, -5,-12, -4, 7, -12]); 
@@ -50,12 +32,8 @@ class RearWallMesh extends Group {
         const line8V = new Float32Array([-6, 1, -12, 6, 1, -12]); 
         const line9V = new Float32Array([-6, 3, -12, 6, 3, -12]); 
         const line10V = new Float32Array([-6, 5, -12,6, 5, -12]); 
-
-
        
-
-    // square is at y = -5 and is 6x5
-
+        // square is at y = -5 and is 6x5
         geometry1.setAttribute('position', new BufferAttribute(line1V, 3)); 
         geometry2.setAttribute('position', new BufferAttribute(line2V, 3)); 
         geometry3.setAttribute('position', new BufferAttribute(line3V, 3)); 
@@ -87,20 +65,7 @@ class RearWallMesh extends Group {
         this.add(line8); 
         this.add(line9);
         this.add(line10); 
-
-
-   
-        
-       // this.add(plane);
-
-
-
-
-
-        
     }
-
-
 }
 
 export default RearWallMesh;
