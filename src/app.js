@@ -8,10 +8,10 @@
  */
 import { WebGLRenderer, PerspectiveCamera, Vector3 } from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
-import { SeedScene, LevelOne, LevelTwo, LevelThree, Sandbox } from 'scenes';
+import { TetrisScene, LevelOne, LevelTwo, LevelThree, Sandbox } from 'scenes';
 
 // Initialize core ThreeJS components
-let scene = new SeedScene(0);
+let scene = new TetrisScene(0);
 const camera = new PerspectiveCamera();
 const renderer = new WebGLRenderer({ antialias: true });
 
@@ -64,11 +64,11 @@ controls.minDistance = 4;
 controls.maxDistance = 50;
 controls.update();
 
-let seedHighScore = 0;
+let sandboxHighScore = 0;
 let levelOneHighScore = 0;
 let levelTwoHighScore = 0;
 let levelThreeHighScore = 0;
-let level = 0;
+let level = -1;
 
 // Render loop
 const onAnimationFrameHandler = (timeStamp) => {
@@ -97,13 +97,15 @@ const windowKeyHandler = (event) => {
         start = false; 
         begin_event_0 = true; 
         canvas1.remove(); 
-        clearInterval(ctx.interval); 
+        clearInterval(ctx.interval);
+        scene = new Sandbox(sandboxHighScore);
+        level = 0;
     }
     
 
     if (level == 0){
-        if (scene.highScore > seedHighScore){
-            seedHighScore = scene.highScore;
+        if (scene.highScore > sandboxHighScore){
+            sandboxHighScore = scene.highScore;
         }
     }
     if (level == 1){
@@ -126,7 +128,7 @@ const windowKeyHandler = (event) => {
         if (level == 0){
             scene.state.gui.destroy();
         }
-        scene = new Sandbox(seedHighScore);
+        scene = new Sandbox(sandboxHighScore);
         level = 0;
     }
     if(event.code === "Digit1"){
