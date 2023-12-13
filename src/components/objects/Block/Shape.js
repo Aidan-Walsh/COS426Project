@@ -1,4 +1,4 @@
-import { Group } from 'three';
+import { Group, Vector3 } from 'three';
 
 class Shape extends Group {
     constructor(parent) {
@@ -127,7 +127,19 @@ class Shape extends Group {
         }
     }
 
-    rotate(blocks) {
+    rotate(bound) {
+        const relative = [];
+        relative.push(new Vector3(0, 0, 0));
+        for (let i = 1; i < this.items.length; i++) {
+            relative.push(new Vector3(this.relative[i].y, -this.relative[i].x, 0));
+        }
+
+        const blocks = [];
+        blocks.push(bound);
+        for (let i = 1; i < this.items.length; i++) {
+            blocks.push(new Vector3().subVectors(relative[i], this.relative[i]));
+        }
+
         if (blocks[0].x < 0 && this.items[0].position.x <= blocks[0].x) return false;
         if (blocks[0].x > 0 && this.items[0].position.x >= blocks[0].x) return false;
         if (blocks[0].y < 0 && this.items[0].position.y <= blocks[0].y) return false;
@@ -135,16 +147,15 @@ class Shape extends Group {
         if (blocks[0].z < 0 && this.items[0].position.z <= blocks[0].z) return false;
         if (blocks[0].z > 0 && this.items[0].position.z >= blocks[0].z) return false;
 
-        if (this.items[1].checkCollision(this.items[1], blocks[1].x, blocks[1].y, 0)) return false;
-        if (this.items[2].checkCollision(this.items[2], blocks[2].x, blocks[2].y, 0)) return false;
-        if (this.items[3].checkCollision(this.items[3], blocks[3].x, blocks[3].y, 0)) return false;
+        for (let i = 1; i < this.items.length; i++) {
+            if (this.items[i].checkCollision(this.items[i], blocks[i].x, blocks[i].y, 0)) return false;
+        }
 
-        this.items[1].position.x += 2 * blocks[1].x;
-        this.items[1].position.y += 2 * blocks[1].y;
-        this.items[2].position.x += 2 * blocks[2].x;
-        this.items[2].position.y += 2 * blocks[2].y;
-        this.items[3].position.x += 2 * blocks[3].x;
-        this.items[3].position.y += 2 * blocks[3].y;
+        for (let i = 1; i < this.items.length; i++) {
+            this.items[i].position.add(blocks[i].clone().multiplyScalar(2));
+            this.relative[i] = relative[i];
+        }
+
         return true;
     }
 }

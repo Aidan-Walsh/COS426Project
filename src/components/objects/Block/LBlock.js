@@ -20,26 +20,26 @@ class LBlock extends Shape {
         super.action(event);
         
         if (event.code === "KeyQ") {
-            let blocks;
+            let bound;
             let rotate;
             if (this.orientation == 0) {
-                blocks = [new Vector3(0, -2, 0), new Vector3(1, 1, 0), new Vector3(-1, -1, 0), new Vector3(0, -2, 0)];
-                rotate = super.rotate(blocks);
+                bound = new Vector3(0, -2, 0);
+                rotate = super.rotate(bound);
                 if (rotate) this.orientation = 1;
             }
             else if (this.orientation == 1){
-                blocks = [new Vector3(-5, 0, 0), new Vector3(1, -1, 0), new Vector3(-1, 1, 0), new Vector3(-2, 0, 0)];
-                rotate = super.rotate(blocks);
+                bound = new Vector3(-5, 0, 0);
+                rotate = super.rotate(bound);
                 if (rotate) this.orientation = 2;
             }
             else if (this.orientation == 2){
-                blocks = [new Vector3(0, 0, 0), new Vector3(-1, -1, 0), new Vector3(1, 1, 0), new Vector3(0, 2, 0)];
-                rotate = super.rotate(blocks);
+                bound = new Vector3(0, 0, 0);
+                rotate = super.rotate(bound);
                 if (rotate) this.orientation = 3;
             }
             else if (this.orientation == 3){
-                blocks = [new Vector3(5, 0, 0), new Vector3(-1, 1, 0), new Vector3(1, -1, 0), new Vector3(2, 0, 0)];
-                rotate = super.rotate(blocks);
+                bound = new Vector3(5, 0, 0);
+                rotate = super.rotate(bound);
                 if (rotate) this.orientation = 0;
             }
         }
