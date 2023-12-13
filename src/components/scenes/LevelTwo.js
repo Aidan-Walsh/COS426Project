@@ -9,10 +9,10 @@ import { RearWallMesh } from '../objects/RearWallMesh';
 import { LeftWall } from '../objects/LeftWall';
 import { LeftWallMesh } from '../objects/LeftWallMesh';
 import { OBlock, LBlock, JBlock, IBlock, SBlock, ZBlock, TBlock } from '../objects/Block';
-import { GameOver } from '../objects/UI';
+import { GameOver, Level, Complete } from '../objects/UI';
 import { Font } from 'three/examples/jsm/loaders/FontLoader.js';
 
-class SeedScene extends Scene {
+class LevelTwo extends Scene {
     constructor(highScore) {
         // Call parent Scene() constructor
         super();
@@ -38,25 +38,11 @@ class SeedScene extends Scene {
             }
         }
 
+        this.blockList = [3, 1, 3, 3, 5, 2, 1, 5, 5, 4, 2, 3, 6, 3, 2, 6, 3, 2, 3, 0, 4, 6, 1, 0, 2, 6, 4, 2, 5, 0, 0, 1, 1, 5, 4, 4, 4, 5, 6, 5];
+
         this.state = {
-            gui: new Dat.GUI(),
-            IBlocks: true,
-            OBlocks: true,
-            LBlocks: true,
-            JBlocks: true,
-            TBlocks: true,
-            SBlocks: true,
-            ZBlocks: true,
             updateList: []
         };
-
-        this.state.gui.add(this.state, 'IBlocks');
-        this.state.gui.add(this.state, 'OBlocks');
-        this.state.gui.add(this.state, 'LBlocks');
-        this.state.gui.add(this.state, 'JBlocks');
-        this.state.gui.add(this.state, 'TBlocks');
-        this.state.gui.add(this.state, 'SBlocks');
-        this.state.gui.add(this.state, 'ZBlocks');
         
         this.setupEventListeners();
         this.reset();
@@ -136,7 +122,7 @@ class SeedScene extends Scene {
         }
         if (timeStamp - this.lastUpdate > 10000){
             if (!this.pause){
-                this.difficulty += 0.1;
+                this.difficulty += 0.2;
             }
             this.lastUpdate = timeStamp;
         }
@@ -144,56 +130,61 @@ class SeedScene extends Scene {
             if (this.game == 1){
                 if (!this.current || this.current.locked) {
                     this.clearRows();
-                    let random = Math.floor(Math.random() * 7);
-                    if (random == 0 && this.state.TBlocks){
+                    let blockNum = 7;
+                    if (this.index == 40){
+                        const block = new Complete(this);
+                        this.current = block;
+                        this.add(block);
+                        this.game = 0;
+                    } else {
+                        blockNum = this.blockList[this.index];
+                        this.index += 1;
+                    }
+                    if (blockNum == 0){
                         const block = new TBlock(this, 2,0,2,0);
                         this.current = block;
                         this.add(block);
                     }
-                    if (random == 1 && this.state.JBlocks){
+                    if (blockNum == 1){
                         const block = new JBlock(this, 2,0,2,0);
                         this.current = block;
                         this.add(block);
                     }
-                    if (random == 2 && this.state.LBlocks){
+                    if (blockNum == 2){
                         const block = new LBlock(this, 2,0,2,0);
                         this.current = block;
                         this.add(block);
                     }
-                    if (random == 3 && this.state.OBlocks){
+                    if (blockNum == 3){
                         const block = new OBlock(this, 2,0,2,0);
                         this.current = block;
                         this.add(block);
                     }
-                    if (random == 4 && this.state.IBlocks){
+                    if (blockNum == 4){
                         const block = new IBlock(this, 2,0,2,0);
                         this.current = block;
                         this.add(block);
                     }
-                    if (random == 5 && this.state.SBlocks){
+                    if (blockNum == 5){
                         const block = new SBlock(this, 2,0,2,0);
                         this.current = block;
                         this.add(block);
                     }
-                    if (random == 6 && this.state.ZBlocks){
+                    if (blockNum == 6){
                         const block = new ZBlock(this, 2,0,2,0);
                         this.current = block;
                         this.add(block);
                     }
                 }
-                if (this.current) {
-                    const gameOver = this.current.update(timeStamp);
-                    if (gameOver) {
-                        const block = new GameOver(this);
-                        this.current = block;
-                        this.add(block);
-                        this.game = 0;
-                    }
+                const gameOver = this.current.update(timeStamp);
+                if (gameOver) {
+                    const block = new GameOver(this);
+                    this.current = block;
+                    this.add(block);
+                    this.game = 0;
                 }
             }
-            if (this.current) {
-                this.current.update(timeStamp);
-            }
+            this.current.update(timeStamp);
         }
     }
 
@@ -231,9 +222,10 @@ class SeedScene extends Scene {
 
         this.state.updateList = [];
 
-        this.difficulty = 1;
+        this.difficulty = 1.5;
         this.score = 0;
         this.lastUpdate = 0;
+        this.index = 0;
 
         const lights = new BasicLights();
         const floor = new Floor(this); 
@@ -242,7 +234,8 @@ class SeedScene extends Scene {
         const rearwallmesh = new RearWallMesh(); 
         const leftwall = new LeftWall(); 
         const leftwallmesh = new LeftWallMesh();
-        this.add(lights, floor, floormesh, rearwall, rearwallmesh, leftwall, leftwallmesh);
+        const level = new Level(this, "LEVEL TWO");
+        this.add(lights, floor, floormesh, rearwall, rearwallmesh, leftwall, leftwallmesh, level);
     }
 }
 
@@ -254,4 +247,4 @@ function updateHighScore(newHighScore) {
     document.getElementById('high-score').innerText = `High Score: ${newHighScore}`;
 }
 
-export default SeedScene;
+export default LevelTwo;
