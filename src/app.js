@@ -8,10 +8,10 @@
  */
 import { WebGLRenderer, PerspectiveCamera, Vector3 } from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
-import { TetrisScene, LevelOne, LevelTwo, LevelThree, Sandbox } from 'scenes';
+import { LevelOne, LevelTwo, LevelThree, Sandbox } from 'scenes';
 
 // Initialize core ThreeJS components
-let scene = new TetrisScene(0);
+let scene = null;
 const camera = new PerspectiveCamera();
 const renderer = new WebGLRenderer({ antialias: true });
 
@@ -44,8 +44,6 @@ createOpeningScreen();
 
 // END START SCREEN
 
-createScoreDisplay();
-
 // Set up renderer, canvas, and minor CSS adjustments
 renderer.setPixelRatio(window.devicePixelRatio);
 const canvas = renderer.domElement;
@@ -72,9 +70,11 @@ let level = -1;
 
 // Render loop
 const onAnimationFrameHandler = (timeStamp) => {
-    controls.update();
-    renderer.render(scene, camera);
-    scene.update && scene.update(timeStamp, camera.position, controls.target);
+    if (scene){
+        controls.update();
+        renderer.render(scene, camera);
+        scene.update && scene.update(timeStamp, camera.position, controls.target);
+    }
 
     window.requestAnimationFrame(onAnimationFrameHandler);
 };
@@ -100,6 +100,7 @@ const windowKeyHandler = (event) => {
         clearInterval(ctx.interval);
         scene = new Sandbox(sandboxHighScore);
         level = 0;
+        createScoreDisplay();
     }
     
 
