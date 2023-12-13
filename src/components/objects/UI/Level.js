@@ -2,13 +2,12 @@ import { Group } from 'three';
 import { MeshBasicMaterial, Mesh } from 'three';
 import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry.js';
 
-
 class Level extends Group {
     constructor(parent, name) {
         // Call parent Group() constructor
         super();
 
-        this.name = 'gameover';
+        this.name = 'level';
         this.locked = false;
         this.parent = parent;
 

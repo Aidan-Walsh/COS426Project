@@ -2,7 +2,6 @@ import { Group } from 'three';
 import { MeshBasicMaterial, Mesh } from 'three';
 import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry.js';
 
-
 class GameOver extends Group {
     constructor(parent) {
         // Call parent Group() constructor
