@@ -114,17 +114,14 @@ class Block extends Group {
     while (!this.checkCollision(0, -height, 0)) {
       height += 1;
     }
-
-    let c = this.coords();
-    let p = this.mapping(c.x, c.y - height, c.z);
+    let offset = -height * 2 + 1;
 
     const geometry = new PlaneGeometry(2, 2);
     const material = new MeshBasicMaterial({color: this.color, side: DoubleSide}); 
     const plane = new Mesh(geometry, material); 
 
-    plane.rotation.x = Math.PI/2; 
-    
-    plane.position.set(0, -height * 2 + 1, 0); 
+    plane.rotation.x = Math.PI/2;
+    plane.position.set(0, offset, 0); 
     this.add(plane);
   }
 
