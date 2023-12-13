@@ -17,20 +17,22 @@ class Shape extends Group {
 
     update(timeStamp) {
         if (this.locked) return false;
-        
+        let willCollide = false
+
         for (const block of this.items) {
-            if (block.checkCollision(0, -1, 0)) this.locked = true;
+            if (block.checkCollision(0, -1, 0)) willCollide = true;
         }
 
         if (!this.locked) {
             for (const block of this.items) {
-                block.update(timeStamp);
+                block.update(timeStamp, willCollide);
+                if (block.locked) this.locked = true;
             }
-            return false;
         }
-
-        for (const block of this.items) {
-            if (block.lock()) return true;
+        if (this.locked) {
+            for (const block of this.items) {
+                if (block.lock()) return true;
+            }
         }
 
         return false;

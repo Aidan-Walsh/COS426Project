@@ -58,14 +58,19 @@ class Block extends Group {
       this.add(cube);
     }
 
-    update(timeStamp) {
+    update(timeStamp, willCollide) {
       if (this.locked) return;
 
       if (this.lastUpdate == 0) this.lastUpdate = timeStamp;
 
       if (timeStamp - this.lastUpdate > 2000 / this.difficulty) {
-        this.position.y -= 2;
-        this.lastUpdate = timeStamp;
+        if (willCollide){
+          this.lock();
+        }
+        else {
+          this.position.y -= 2;
+          this.lastUpdate = timeStamp;
+        }
       }
       this.shadow();
       TWEEN.update();
@@ -124,8 +129,8 @@ class Block extends Group {
   }
 
   removeShadow() {
-    for (let i = 2; i < this.children.length; i++) {
-      this.remove(this.children[i]); 
+    for (let i = this.children.length - 1; i >= 2; i--) {
+      this.remove(this.children[i]);
     }
   }
 
