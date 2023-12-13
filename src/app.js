@@ -8,7 +8,7 @@
  */
 import { WebGLRenderer, PerspectiveCamera, Vector3 } from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
-import { SeedScene, LevelOne, LevelTwo, LevelThree } from 'scenes';
+import { SeedScene, LevelOne, LevelTwo, LevelThree, Sandbox } from 'scenes';
 
 // Initialize core ThreeJS components
 let scene = new SeedScene(0);
@@ -126,7 +126,7 @@ const windowKeyHandler = (event) => {
         if (level == 0){
             scene.state.gui.destroy();
         }
-        scene = new SeedScene(seedHighScore);
+        scene = new Sandbox(seedHighScore);
         level = 0;
     }
     if(event.code === "Digit1"){
