@@ -20,7 +20,7 @@ class SeedScene extends Scene {
         // Set background to a nice color
         this.background = new Color(0x7ec0ee);
         const loader = new TextureLoader(); 
-        this.background = loader.load("https://threejs.org/examples/textures/uv_grid_opengl.jpg"); 
+        this.background = loader.load("https://t4.ftcdn.net/jpg/05/16/98/21/360_F_516982134_z3zQOQ9eEXRjT6waxQMwBaTeiqulpsDG.jpg"); 
         this.highScore = 0;
         this.size = 6;
 
