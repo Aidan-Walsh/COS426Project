@@ -172,8 +172,10 @@ class SeedScene extends Scene {
         }
         if (event.code === "KeyP"){
             this.pause = !this.pause;
+            console.log("balls"); 
             if (this.pause) {
                this.paused_element = new Pause(this); 
+
             }
             else {
                 this.paused_element.destroyer(this); 

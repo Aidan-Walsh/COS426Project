@@ -228,12 +228,13 @@ function displayHint() {
     ctx.fillText("Controls",50,canvas1.height*(1/3));
     
     ctx.font = "16px Arial"; 
-    ctx.fillText("W/E = Rotate",50,canvas1.height/3 + 20);
-    ctx.fillText("Arrow Keys = Shift",50,canvas1.height/3 + 40);
+    ctx.fillText("Q/W/E = Rotate",50,canvas1.height/3 + 20);
+    ctx.fillText("Arrow Keys = Translate",50,canvas1.height/3 + 40);
     ctx.fillText("P = Pause",50,canvas1.height/3 + 60);
-    ctx.fillText("0/1/2/3 = Difficulty", 50,canvas1.height/3 + 80);
-    ctx.fillText("Space Bar = Shift down", 50,canvas1.height/3 + 100);
-    ctx.fillText("Mouse Click = Toggle Camera", 50,canvas1.height/3 + 120);
+    ctx.fillText("1/2/3 = Difficulty", 50,canvas1.height/3 + 80);
+    ctx.fillText("0 = Sandbox", 50, canvas1.height/3 + 100)
+    ctx.fillText("Space Bar = Shift down", 50,canvas1.height/3 + 120);
+    ctx.fillText("Mouse Click = Toggle Camera", 50,canvas1.height/3 + 140);
 
     document.body.insertBefore(canvas1, document.body.childNodes[0]); 
 
