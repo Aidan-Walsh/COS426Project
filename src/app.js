@@ -33,9 +33,9 @@ ctx.textAlign = "start";
 ctx.textBaseline = "bottom"; 
 ctx.fillStyle = "#33ff36";
 
-ctx.fillText("3D TETRIS",canvas1.width/2-canvas1.width/5.68,canvas1.height/2 - canvas1.width/17.04);
+ctx.fillText("3D TETRIS",canvas1.width/2 - canvas1.width/9,canvas1.height/2 - canvas1.height/4);
  ctx.font = "italic 32px Arial";
-ctx.fillText("Press Any Button To Begin",canvas1.width/2-canvas1.width/4.8,canvas1.height/2  ); // use timestamp to change luminance
+ctx.fillText("Press Any Button To Begin",canvas1.width/2 - canvas1.width/9 - 30,canvas1.height/2 - canvas1.height/4 + 50 ); // use timestamp to change luminance
 
 const colors = ["#33ffd6", "red", "orange", "yellow", "blue", "purple", "white"]; 
 let index = 1; 
@@ -210,9 +210,9 @@ function updateCanvas() {
     if (index == colors.length) {
         index = 0; 
     }
-    ctx.fillText("3D TETRIS",canvas1.width/2-canvas1.width/5.68,canvas1.height/2 - canvas1.width/17.04);
+    ctx.fillText("3D TETRIS",canvas1.width/2 - canvas1.width/9,canvas1.height/2 - canvas1.height/4);
     ctx.font = "italic 32px Arial";
-    ctx.fillText("Press Any Button To Begin",canvas1.width/2-canvas1.width/4.8,canvas1.height/2   ); 
+    ctx.fillText("Press Any Button To Begin",canvas1.width/2 - canvas1.width/9 - 30,canvas1.height/2 - canvas1.height/4 + 50 ); 
     displayHint(); 
     document.body.insertBefore(canvas1, document.body.childNodes[0]); 
 
@@ -225,15 +225,15 @@ function displayHint() {
     ctx.textAlign = "start"; 
     ctx.textBaseline = "bottom"; 
     ctx.fillStyle =  "#33ff36";
-    ctx.fillText("Controls",50,canvas1.height/2 + canvas1.width/4);
+    ctx.fillText("Controls",50,canvas1.height*(1/3));
     
     ctx.font = "16px Arial"; 
-    ctx.fillText("W/E = Rotate",50,canvas1.height/2 + canvas1.width/4 + 20);
-    ctx.fillText("Arrow Keys = Shift",50,canvas1.height/2 + canvas1.width/4 + 40);
-    ctx.fillText("P = Pause",50,canvas1.height/2 + canvas1.width/4 + 60);
-    ctx.fillText("0/1/2/3 = Difficulty", 50,canvas1.height/2 + canvas1.width/4 + 80);
-    ctx.fillText("Space Bar = Shift down", 50,canvas1.height/2 + canvas1.width/4 + 100);
-    ctx.fillText("Mouse Click = Toggle Camera", 50,canvas1.height/2 + canvas1.width/4 + 120);
+    ctx.fillText("W/E = Rotate",50,canvas1.height/3 + 20);
+    ctx.fillText("Arrow Keys = Shift",50,canvas1.height/3 + 40);
+    ctx.fillText("P = Pause",50,canvas1.height/3 + 60);
+    ctx.fillText("0/1/2/3 = Difficulty", 50,canvas1.height/3 + 80);
+    ctx.fillText("Space Bar = Shift down", 50,canvas1.height/3 + 100);
+    ctx.fillText("Mouse Click = Toggle Camera", 50,canvas1.height/3 + 120);
 
     document.body.insertBefore(canvas1, document.body.childNodes[0]); 
 
