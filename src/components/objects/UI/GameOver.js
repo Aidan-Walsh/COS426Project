@@ -52,6 +52,7 @@ class GameOver extends Group {
       let p = cameraTarget.clone().sub(this.center);
 
       //mesh.lookAt(cameraPosition.clone().sub(this.center));
+      console.log(p); 
       //edgeLines.lookAt(cameraPosition.clone().sub(this.center));
       mesh.position.set(p.x, p.y, p.z);
       edgeLines.position.set(p.x, p.y, p.z);

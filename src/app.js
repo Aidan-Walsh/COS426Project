@@ -32,8 +32,7 @@ ctx.font = "bold 64px Arial";
 ctx.textAlign = "start"; 
 ctx.textBaseline = "bottom"; 
 ctx.fillStyle = "#33ff36";
-console.log(canvas1.width); 
-console.log(canvas1.height); 
+
 ctx.fillText("3D TETRIS",canvas1.width/2-canvas1.width/5.68,canvas1.height/2 - canvas1.width/17.04);
  ctx.font = "italic 32px Arial";
 ctx.fillText("Press Any Button To Begin",canvas1.width/2-canvas1.width/4.8,canvas1.height/2  ); // use timestamp to change luminance
