@@ -1,8 +1,8 @@
 import * as Dat from 'dat.gui';
 import { OBlock, LBlock, JBlock, IBlock, SBlock, ZBlock, TBlock } from '../objects/Block';
-import SeedScene from './TetrisScene';
+import TetrisScene from './TetrisScene';
 
-class Sandbox extends SeedScene {
+class Sandbox extends TetrisScene {
     constructor(highScore) {
         // Call parent Scene() constructor
         super(highScore);
