@@ -14,6 +14,9 @@ import { SeedScene, LevelOne, LevelTwo, LevelThree } from 'scenes';
 let scene = new SeedScene(0);
 const camera = new PerspectiveCamera();
 const renderer = new WebGLRenderer({ antialias: true });
+
+createOpeningScreen(); 
+
 createScoreDisplay();
 
 // Set up camera
@@ -143,4 +146,18 @@ function createScoreDisplay() {
 
     // Add the container to the body
     document.body.appendChild(scoreContainer);
+}
+
+function createOpeningScreen() {
+   const canvas1 =  document.createElement("canvas"); 
+   const { innerHeight, innerWidth } = window;
+   canvas1.width = innerWidth; 
+   canvas1.height = innerWidth;
+   const ctx = canvas1.getContext("2d"); 
+   ctx.fillStyle = 'black'; 
+   ctx.fillRect(0,0, canvas1.width, canvas1.height); 
+   //document.body.insertBefore(canvas1, document.body.childNodes[0]); 
+   ctx.font = "30px Arial"; 
+   ctx.fillText("Hello World", 10, 50);
+
 }
