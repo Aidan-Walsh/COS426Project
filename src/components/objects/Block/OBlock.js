@@ -15,10 +15,6 @@ class OBlock extends Shape {
             this.add(item);
         }
     }
-
-    action(event){
-        super.action(event);
-    }
 }
 
 export default OBlock;

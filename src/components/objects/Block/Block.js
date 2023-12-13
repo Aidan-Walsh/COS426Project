@@ -4,154 +4,147 @@ import { TWEEN } from 'three/examples/jsm/libs/tween.module.min.js';
 
 
 class Block extends Group {
-    constructor(parent, x,y,z, color_num) {
-      // Call parent Group() constructor
+    constructor(parent, x, y, z, color_num) {
       super();
-      // difficulty ranges from 0 to INF, each level increases speed by 10%
+      
+      this.name = 'block';
       this.locked = false;
-      this.position.set(x, y, z);
+      this.lastUpdate = 0;
+
       this.difficulty = parent.difficulty;
       this.grid = parent.grid;
-
-      // where we store everything that will be updated
-      this.items = []; 
-      // Add self to parent's update list
+      this.blocks = parent.blocks;
+      
       parent.addToUpdateList(this);
-      // top left coordinate: ( -6,-5, -12)
-      // top right coordinate: (6,-5,-12)
-      // bottom left coordinate: (-6,-5,0)
-      // bottom right coordinate: (6,-5,0)
+      
+      let mapping = this.mapping(x, y, z);
+      this.position.set(mapping.x, mapping.y, mapping.z);
 
-      // want y to be 8 when z is 0
-      // x, y indicate coordinate in 6x6 grid
-      // for x: 0 -> -6, 1 -> -4
-      // for y: 0 -> -12, 1 -> -10
-      let smaller_mapped_x = x*2 - 5; 
-      let smaller_mapped_z = z*2 - 11; 
-      let smaller_mapped_y = y*2 + 8;
-
-
-      // if color_num is 0, then use red, 1 = yellow, 2 = blue, else use orange
-      let color; 
-      if (color_num == 0) {
-        color = new Color('red'); 
+      const edge_color = new Color('black');
+      switch (color_num) {
+        case 0:
+          this.color = new Color('red'); 
+          break;
+        case 1:
+          this.color = new Color('yellow'); 
+          break;
+        case 2:
+          this.color = new Color('blue'); 
+          break;
+        case 3:
+          this.color = new Color('orange'); 
+          break;
+        case 4:
+          this.color = new Color('cyan');
+          break;
+        case 5:
+          this.color = new Color('purple');
+          break;
+        case 6:
+          this.color = new Color('green');
+          break;
+        default:
+          this.color = new Color('white');
+          break;
       }
-      else if (color_num == 1) {
-        color = new Color('yellow'); 
-      }
-      else if (color_num == 2) {
-        color = new Color('blue'); 
-      }
-      else if (color_num == 3) {
-        color = new Color('orange'); 
-      }
-      else if (color_num == 4) {
-        color = new Color('cyan'); 
-      }
-      else if (color_num == 5) {
-        color = new Color('purple'); 
-      }
-      else if (color_num == 6) {
-        color = new Color('green'); 
-      }
-      else {
-        color = new Color('white');
-      }
-
-      const edge_color = new Color('black'); 
-      this.name = 'block';
-
-      const geometry = new BoxGeometry( 2, 2, 2 ); 
-      const material = new MeshBasicMaterial({ color: color, side: DoubleSide});
+      
+      const geometry = new BoxGeometry(2, 2, 2); 
+      const material = new MeshBasicMaterial({color: this.color, side: DoubleSide});
       const cube = new Mesh(geometry, material);
       const edges = new EdgesGeometry(geometry);
-      const lineMaterial = new LineBasicMaterial({ color: edge_color, linewidth: 2 }); // Black color for the edges
+      const lineMaterial = new LineBasicMaterial({color: edge_color, linewidth: 2});
       const edgeLines = new LineSegments(edges, lineMaterial);
       this.add(edgeLines);
       this.add(cube);
-      this.position.set(smaller_mapped_x, smaller_mapped_y, smaller_mapped_z);
-      this.lastUpdate = 0;
     }
 
-    checkCollision(block, dx, dy, dz){
-        let x = (block.position.x + 5)/2;
-        let y = (block.position.y + 4)/2;
-        let z = (block.position.z + 11)/2;
-        if (x + dx >= 0 && x + dx <= 5 && y + dy >= 0 && y + dy <= 5 && z + dz >= 0 && z + dz <= 5){
-          if (this.grid[x + dx][y + dy][z + dz]){
-            return true;
-          }
-        }
+    update(timeStamp) {
+      if (this.locked) return;
 
-        // BEGIN CODE FOR SHADOWS
-       
-        for (let i = 6; i >= 0; i--) {
-          let index = i; 
-          if (i ==6) index = 5; 
-            const geometry = new PlaneGeometry(2,2);
-            const color = this.children[1].material.color
-            // remove all previous children that are not the edges and cube, which are 0 and 1 indices
-            for (let j = 2; j < this.children.length; j++) {
-              this.remove(this.children[j]); 
-            }
-            const material = new MeshBasicMaterial({color: color, side: DoubleSide}); 
-            const plane = new Mesh (geometry, material); 
-           let changed_y = 0; 
-           if (this.grid[x][index][z]) {
-            changed_y = -block.position.y -3 + (i*2);
-            plane.position.set(0,changed_y,0); 
-            plane.rotation.x = Math.PI/2; 
-            this.add(plane);
-            break; 
-           }
-           else if (i == 0 && this.grid[x][index][z] != true) {
-            changed_y = -block.position.y-4 - 1;
-            if (block.position.y == -4) {
-              changed_y = 0; 
-            }
-            plane.position.set(0,changed_y,0); 
-            plane.rotation.x = Math.PI/2; 
-            this.add(plane);
-            break; 
-           }        
-          }      
-    
-     // END SHADOWS CODE
-
-
-        return false;
-    }
-
-    update(timeStamp, willCollide) {
-      if (!this.locked){
-        if (this.lastUpdate == 0) {
-          this.lastUpdate = timeStamp;
-        }
-        if (timeStamp - this.lastUpdate > 2000 / this.difficulty){
-          if (willCollide){
-            this.locked = true;
-
-            // remove shadow after landing
-            for (let i = 2; i < this.children.length; i++) {
-              this.remove(this.children[i]); 
-            }
-
-          }
-          else {
-            this.position.y -= 2;
-            this.lastUpdate = timeStamp;
-          }
-        }
-      }
+      if (this.lastUpdate == 0) this.lastUpdate = timeStamp;
       
-      // Advance tween animations, if any exist
+      if (timeStamp - this.lastUpdate > 2000 / this.difficulty) {
+        this.position.y -= 2;
+        this.lastUpdate = timeStamp;
+      }
+
+      this.shadow();
+      
       TWEEN.update();
   }
 
+  checkCollision(dx, dy, dz) {
+    let c = this.coords();
+    
+    if (c.x + dx < 0 || c.x + dx > 5) return true;
+    if (c.y + dy < 0) return true;
+    if (c.z + dz < 0 || c.z + dz > 5) return true;
+
+    if (c.y + dy <= 5 && this.grid[c.x + dx][c.y + dy][c.z + dz]) return true;
+
+    return false;
+  }
+
+  lock() {
+    this.locked = true;
+
+    this.removeShadow();
+
+    for (let i = 0; i < this.children.length; i++) {
+      this.children[i].material.transparent = true; 
+      this.children[i].material.opacity = 0.4; 
+    }
+
+    let c = this.coords();
+    try {
+        this.grid[c.x][c.y][c.z] = true;
+        this.blocks[c.x][c.y][c.z] = this;
+    }
+    catch(error) {
+        return true;
+    }
+
+    return false;
+  }
+
+  shadow() {
+    this.removeShadow();
+
+    let height = 1;
+    while (!this.checkCollision(0, -height, 0)) {
+      height += 1;
+    }
+
+    let c = this.coords();
+    let p = this.mapping(c.x, c.y - height, c.z);
+
+    const geometry = new PlaneGeometry(2, 2);
+    const material = new MeshBasicMaterial({color: this.color, side: DoubleSide}); 
+    const plane = new Mesh(geometry, material); 
+
+    plane.rotation.x = Math.PI/2; 
+    
+    plane.position.set(0, -height * 2 + 1, 0); 
+    this.add(plane);
+  }
+
+  removeShadow() {
+    for (let i = 2; i < this.children.length; i++) {
+      this.remove(this.children[i]); 
+    }
+  }
+
   coords() {
-    let x = (this.position.x + 5)/2;
-    let y = (this.position.y + 4)/2;
-    let z = (this.position.z + 11)/2;
+    let x = (this.position.x + 5) / 2;
+    let y = (this.position.y + 4) / 2;
+    let z = (this.position.z + 11) / 2;
+    return new Vector3(x, y, z);
+  }
+
+  mapping(ix, iy, iz) {
+    let x = ix * 2 - 5;
+    let y = iy * 2 + 8;
+    let z = iz * 2 - 11; 
     return new Vector3(x, y, z);
   }
 }

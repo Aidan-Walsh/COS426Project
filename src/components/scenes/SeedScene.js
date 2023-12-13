@@ -201,7 +201,6 @@ class SeedScene extends Scene {
         window.addEventListener('keydown', (e) => this.handleKeyDown(e));
     }
 
-    // Event handler for keydown events
     handleKeyDown(event) {
         if (!this.pause && this.current){
             this.current.action(event);

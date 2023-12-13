@@ -6,157 +6,121 @@ class Shape extends Group {
         
         parent.addToUpdateList(this);
 
-        this.locked = false;
         this.grid = parent.grid;
         this.blocks = parent.blocks;
 
-        this.orientation = 0;
         this.relative = [];
-
         this.items = [];
+
+        this.locked = false;
     }
 
     update(timeStamp) {
-        if (this.locked) return
+        if (this.locked) return false;
         
-        let willCollide = false;
         for (const block of this.items) {
-            if (block.checkCollision(block, 0, -1, 0) || block.position.y == -4){
-                willCollide = true;
+            if (block.checkCollision(0, -1, 0)) this.locked = true;
+        }
 
-                 // remove shadow children if about to collide
-                 for (let j = 2; j < block.children.length; j++) {
-                    block.remove(block.children[j]); 
-                    }   
+        if (!this.locked) {
+            for (const block of this.items) {
+                block.update(timeStamp);
             }
+            return false;
         }
 
         for (const block of this.items) {
-            block.update(timeStamp, willCollide);
+            if (block.lock()) return true;
         }
 
-        for (const block of this.items) {
-            if (block.locked) {
-                this.locked = true;
-            }
-        }
-
-        if (!this.locked) return;
-
-        for (const block of this.items) {
-            block.locked = true;
-
-            let c = block.coords();
-            
-            try {
-                this.grid[c.x][c.y][c.z] = true;
-                this.blocks[c.x][c.y][c.z] = block;
-            }
-            catch(error) {
-                return true;
-            }
-
-            for (let i = 0; i < block.children.length; i++) {
-                block.children[i].material.transparent = true; 
-                block.children[i].material.opacity = 0.4; 
-            }
-        }
+        return false;
     }
 
     action(event) {
-        let performAction = true;
         if (event.code === "ArrowRight"){
-            for(const block of this.items){
-                if (block.position.x > 3 || block.locked || block.checkCollision(block, 1, 0, 0)) {
-                    performAction = false;
-                }
+            for(const block of this.items) {
+                if (block.position.x > 3 || block.locked || block.checkCollision(1, 0, 0)) return false;
             }
-            if (performAction) {
-                for(const block of this.items){
-                    block.position.x += 2;
-                }
+            for (const block of this.items) {
+                block.position.x += 2;
             }
+            return true;
         }
+
         if (event.code === "ArrowLeft"){
-            for(const block of this.items){
-                if (block.position.x < -3 || block.locked || block.checkCollision(block, -1, 0, 0)) {
-                    performAction = false;
-                }
+            for (const block of this.items) {
+                if (block.position.x < -3 || block.locked || block.checkCollision(-1, 0, 0)) return false;
             }
-            if (performAction) {
-                for(const block of this.items){
-                    block.position.x -= 2;
-                }
+            for (const block of this.items) {
+                block.position.x -= 2;
             }
+            return true;
         }
+
         if (event.code === "ArrowDown"){
-            for(const block of this.items){
-                if (block.position.z > -3 || block.locked || block.checkCollision(block, 0, 0, 1)) {
-                    performAction = false;
-                }
+            for (const block of this.items) {
+                if (block.position.z > -3 || block.locked || block.checkCollision(0, 0, 1)) return false;
             }
-            if (performAction) {
-                for(const block of this.items){
-                    block.position.z += 2;
-                }
+            for (const block of this.items) {
+                block.position.z += 2;
             }
+            return true;
         }
+
         if (event.code === "ArrowUp"){
-            for(const block of this.items){
-                if (block.position.z < -9 || block.locked || block.checkCollision(block, 0, 0, -1)) {
-                    performAction = false;
-                }
+            for (const block of this.items) {
+                if (block.position.z < -9 || block.locked || block.checkCollision(0, 0, -1)) return false;
             }
-            if (performAction) {
-                for(const block of this.items){
-                    block.position.z -= 2;
-                }
+            for (const block of this.items) {
+                block.position.z -= 2;
             }
+            return true;
         }
+
         if (event.code === "Space"){
-            for(const block of this.items){
-                if (block.position.y < -2 || block.locked || block.checkCollision(block, 0, -1, 0)) {
-                    performAction = false;
-                }
+            for (const block of this.items) {
+                if (block.position.y < -2 || block.locked || block.checkCollision(0, -1, 0)) return false;
             }
-            if (performAction) {
-                for(const block of this.items){
-                    block.position.y -= 2;
-                }
+            for (const block of this.items) {
+                block.position.y -= 2;
             }
+            return true;
+        }
+
+        if (event.code === "KeyQ") {
+            return this.rotate(0);
+        }
+
+        if (event.code === "KeyW") {
+            return this.rotate(1);
+        }
+
+        if (event.code === "KeyE") {
+            return this.rotate(2);
         }
     }
 
-    rotate(bound) {
+    rotate(direction) {
         const relative = [];
-        relative.push(new Vector3(0, 0, 0));
-        for (let i = 1; i < this.items.length; i++) {
-            relative.push(new Vector3(this.relative[i].y, -this.relative[i].x, 0));
+        for (let i = 0; i < this.items.length; i++) {
+            if (direction == 0) relative.push(new Vector3(this.relative[i].y, -this.relative[i].x, this.relative[i].z));
+            if (direction == 1) relative.push(new Vector3(this.relative[i].x, this.relative[i].z, -this.relative[i].y));
+            if (direction == 2) relative.push(new Vector3(-this.relative[i].z, this.relative[i].y, this.relative[i].x));
         }
 
         const blocks = [];
-        blocks.push(bound);
-        for (let i = 1; i < this.items.length; i++) {
+        for (let i = 0; i < this.items.length; i++) {
             blocks.push(new Vector3().subVectors(relative[i], this.relative[i]));
         }
 
-        if (blocks[0].x < 0 && this.items[0].position.x <= blocks[0].x) return false;
-        if (blocks[0].x > 0 && this.items[0].position.x >= blocks[0].x) return false;
-        if (blocks[0].y < 0 && this.items[0].position.y <= blocks[0].y) return false;
-        if (blocks[0].y > 0 && this.items[0].position.y >= blocks[0].y) return false;
-        if (blocks[0].z < 0 && this.items[0].position.z <= blocks[0].z) return false;
-        if (blocks[0].z > 0 && this.items[0].position.z >= blocks[0].z) return false;
-
-        for (let i = 1; i < this.items.length; i++) {
-            if (this.items[i].checkCollision(this.items[i], blocks[i].x, blocks[i].y, 0)) return false;
+        for (let i = 0; i < this.items.length; i++) {
+            if (this.items[i].checkCollision(blocks[i].x, blocks[i].y, blocks[i].z)) return false;
         }
 
-        for (let i = 1; i < this.items.length; i++) {
+        for (let i = 0; i < this.items.length; i++) {
             this.items[i].position.add(blocks[i].clone().multiplyScalar(2));
             this.relative[i] = relative[i];
         }
-
-        return true;
     }
 }
 
