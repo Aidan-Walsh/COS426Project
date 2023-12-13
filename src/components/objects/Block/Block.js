@@ -62,14 +62,12 @@ class Block extends Group {
       if (this.locked) return;
 
       if (this.lastUpdate == 0) this.lastUpdate = timeStamp;
-      
+
       if (timeStamp - this.lastUpdate > 2000 / this.difficulty) {
         this.position.y -= 2;
         this.lastUpdate = timeStamp;
       }
-
       this.shadow();
-      
       TWEEN.update();
   }
 

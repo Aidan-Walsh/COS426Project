@@ -2,7 +2,6 @@ import { Group } from 'three';
 import { MeshBasicMaterial, Mesh } from 'three';
 import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry.js';
 
-
 class Complete extends Group {
     constructor(parent) {
         // Call parent Group() constructor
@@ -30,7 +29,9 @@ class Complete extends Group {
     }
 
     action(event){
-
+      if (event.code === "Space"){
+        this.parent.reset();
+      }
     }
 }
 
