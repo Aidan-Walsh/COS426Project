@@ -1,6 +1,6 @@
 import * as Dat from 'dat.gui';
 import { OBlock, LBlock, JBlock, IBlock, SBlock, ZBlock, TBlock } from '../objects/Block';
-import SeedScene from './SeedScene';
+import SeedScene from './TetrisScene';
 
 class Sandbox extends SeedScene {
     constructor(highScore) {
@@ -29,6 +29,17 @@ class Sandbox extends SeedScene {
         
         this.setupEventListeners();
         this.reset();
+    }
+
+    update(timeStamp, cameraPosition, cameraTarget) {
+        super.update(timeStamp, cameraPosition, cameraTarget);
+
+        if (timeStamp - this.lastUpdate > 10000){
+            if (!this.pause) {
+                this.difficulty += 0.1;
+            }
+            this.lastUpdate = timeStamp;
+        }
     }
 
     getBlock() {
@@ -88,6 +99,14 @@ class Sandbox extends SeedScene {
         super.reset();
         this.difficulty = 1;
     }
+}
+
+function updateScore(newScore) {
+    document.getElementById('score').innerText = `Score: ${newScore}`;
+}
+
+function updateHighScore(newHighScore) {
+    document.getElementById('high-score').innerText = `High Score: ${newHighScore}`;
 }
 
 export default Sandbox;

@@ -2,7 +2,7 @@ import { Group } from 'three';
 import { MeshBasicMaterial, Mesh } from 'three';
 import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry.js';
 
-class Level extends Group {
+class LevelNum extends Group {
     constructor(parent, name) {
         // Call parent Group() constructor
         super();
@@ -25,4 +25,4 @@ class Level extends Group {
     }
 }
 
-export default Level;
+export default LevelNum;

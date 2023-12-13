@@ -1,4 +1,3 @@
-import * as Dat from 'dat.gui';
 import { Scene, Color, TextureLoader } from 'three';
 import { BasicLights } from 'lights';
 import Floor from '../objects/Floor/Floor';
@@ -11,7 +10,7 @@ import { OBlock, LBlock, JBlock, IBlock, SBlock, ZBlock, TBlock } from '../objec
 import { GameOver, Pause } from '../objects/UI';
 import { Font } from 'three/examples/jsm/loaders/FontLoader.js';
 
-class SeedScene extends Scene {
+class TetrisScene extends Scene {
     constructor(highScore) {
         // Call parent Scene() constructor
         super();
@@ -38,24 +37,8 @@ class SeedScene extends Scene {
         }
 
         this.state = {
-            gui: new Dat.GUI(),
-            IBlocks: true,
-            OBlocks: true,
-            LBlocks: true,
-            JBlocks: true,
-            TBlocks: true,
-            SBlocks: true,
-            ZBlocks: true,
             updateList: []
         };
-
-        this.state.gui.add(this.state, 'IBlocks');
-        this.state.gui.add(this.state, 'OBlocks');
-        this.state.gui.add(this.state, 'LBlocks');
-        this.state.gui.add(this.state, 'JBlocks');
-        this.state.gui.add(this.state, 'TBlocks');
-        this.state.gui.add(this.state, 'SBlocks');
-        this.state.gui.add(this.state, 'ZBlocks');
         
         this.setupEventListeners();
         this.reset();
@@ -132,13 +115,6 @@ class SeedScene extends Scene {
     update(timeStamp, cameraPosition, cameraTarget) {
         if (this.lastUpdate == 0) this.lastUpdate = timeStamp;
 
-        if (timeStamp - this.lastUpdate > 10000){
-            if (!this.pause) {
-                this.difficulty += 0.1;
-            }
-            this.lastUpdate = timeStamp;
-        }
-
         if (this.pause) return;
         
         if (this.game == 0) {
@@ -172,7 +148,6 @@ class SeedScene extends Scene {
         }
         if (event.code === "KeyP"){
             this.pause = !this.pause;
-            console.log("balls"); 
             if (this.pause) {
                this.paused_element = new Pause(this); 
 
@@ -279,4 +254,4 @@ function updateHighScore(newHighScore) {
     document.getElementById('high-score').innerText = `High Score: ${newHighScore}`;
 }
 
-export default SeedScene;
+export default TetrisScene;
