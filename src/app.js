@@ -26,7 +26,7 @@ document.body.appendChild(canvas);
 
 // Set up controls
 const controls = new OrbitControls(camera, canvas);
-controls.object.position.set(0, 20, 5);
+controls.object.position.set(0, 25, 10);
 controls.target = new Vector3(0, 0, -6);
 controls.enableDamping = true;
 controls.enablePan = false;
