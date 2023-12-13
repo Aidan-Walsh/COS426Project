@@ -26,8 +26,8 @@ document.body.appendChild(canvas);
 
 // Set up controls
 const controls = new OrbitControls(camera, canvas);
-controls.object.position.set(0, 20, 5);
-controls.target = new Vector3(0, 0, -6);
+controls.object.position.set(0, 20, 10);
+controls.target = new Vector3(0, 0, -8);
 controls.enableDamping = true;
 controls.enablePan = false;
 controls.minDistance = 4;
@@ -42,10 +42,9 @@ let level = 0;
 
 // Render loop
 const onAnimationFrameHandler = (timeStamp) => {
-    console.log(camera.position);
     controls.update();
     renderer.render(scene, camera);
-    scene.update && scene.update(timeStamp);
+    scene.update && scene.update(timeStamp, camera.position, controls.target);
 
     window.requestAnimationFrame(onAnimationFrameHandler);
 };
