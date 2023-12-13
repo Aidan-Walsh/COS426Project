@@ -129,8 +129,8 @@ class Block extends Group {
   }
 
   removeShadow() {
-    for (let i = 2; i < this.children.length; i++) {
-      this.remove(this.children[i]); 
+    for (let i = this.children.length - 1; i >= 2; i--) {
+      this.remove(this.children[i]);
     }
   }
 
