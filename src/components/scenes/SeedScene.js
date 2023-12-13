@@ -8,7 +8,7 @@ import { RearWallMesh } from '../objects/RearWallMesh';
 import { LeftWall } from '../objects/LeftWall';
 import { LeftWallMesh } from '../objects/LeftWallMesh';
 import { OBlock, LBlock, JBlock, IBlock, SBlock, ZBlock, TBlock } from '../objects/Block';
-import { GameOver } from '../objects/UI';
+import { GameOver, Pause } from '../objects/UI';
 import { Font } from 'three/examples/jsm/loaders/FontLoader.js';
 
 class SeedScene extends Scene {
@@ -172,6 +172,12 @@ class SeedScene extends Scene {
         }
         if (event.code === "KeyP"){
             this.pause = !this.pause;
+            if (this.pause) {
+               this.paused_element = new Pause(this); 
+            }
+            else {
+                this.paused_element.destroyer(this); 
+            }
         }
     }
 

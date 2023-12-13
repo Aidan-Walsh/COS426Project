@@ -14,6 +14,36 @@ import { SeedScene, LevelOne, LevelTwo, LevelThree, Sandbox } from 'scenes';
 let scene = new SeedScene(0);
 const camera = new PerspectiveCamera();
 const renderer = new WebGLRenderer({ antialias: true });
+
+
+// BEGIN START SCREEN
+// this code is not in a function to make these variables global so that they may 
+// be updated
+let start = true; 
+let begin_event_0 = false; 
+const canvas1 =  document.createElement("canvas"); 
+const { innerHeight, innerWidth } = window;
+canvas1.width = innerWidth; 
+canvas1.height = innerWidth;
+const ctx = canvas1.getContext("2d"); 
+ctx.fillStyle = 'black'; 
+ctx.fillRect(0,0, canvas1.width, canvas1.height); 
+ctx.font = "bold 64px Arial";
+ctx.textAlign = "start"; 
+ctx.textBaseline = "bottom"; 
+ctx.fillStyle = "#33ff36";
+
+ctx.fillText("3D TETRIS",canvas1.width/2-canvas1.width/5.68,canvas1.height/2 - canvas1.width/17.04);
+ ctx.font = "italic 32px Arial";
+ctx.fillText("Press Any Button To Begin",canvas1.width/2-canvas1.width/4.8,canvas1.height/2  ); // use timestamp to change luminance
+
+const colors = ["#33ffd6", "red", "orange", "yellow", "blue", "purple", "white"]; 
+let index = 1; 
+displayHint(); 
+createOpeningScreen(); 
+
+// END START SCREEN
+
 createScoreDisplay();
 
 // Set up renderer, canvas, and minor CSS adjustments
@@ -57,9 +87,20 @@ const windowResizeHandler = () => {
     camera.aspect = innerWidth / innerHeight;
     camera.updateProjectionMatrix();
 };
+
 windowResizeHandler();
 window.addEventListener('resize', windowResizeHandler, false);
 const windowKeyHandler = (event) => {
+
+// CLEAR START SCREEN
+    if (start) {
+        start = false; 
+        begin_event_0 = true; 
+        canvas1.remove(); 
+        clearInterval(ctx.interval); 
+    }
+    
+
     if (level == 0){
         if (scene.highScore > seedHighScore){
             seedHighScore = scene.highScore;
@@ -80,7 +121,8 @@ const windowKeyHandler = (event) => {
             levelThreeHighScore = scene.highScore;
         }
     }
-    if(event.code === "Digit0"){
+    if(event.code === "Digit0" || begin_event_0){ // begin_event_0 is only true once we exit start screen
+        begin_event_0 = false; // this indicates to start in level 0 after start screen is removed
         if (level == 0){
             scene.state.gui.destroy();
         }
@@ -108,6 +150,7 @@ const windowKeyHandler = (event) => {
         scene = new LevelThree(levelThreeHighScore);
         level = 3;
     }
+
 };
 window.addEventListener('keydown', windowKeyHandler, false);
 
@@ -138,4 +181,61 @@ function createScoreDisplay() {
 
     // Add the container to the body
     document.body.appendChild(scoreContainer);
+}
+
+// show the start screen, then call the updating function every second
+function createOpeningScreen() {
+   
+    // show created canvas
+   document.body.insertBefore(canvas1, document.body.childNodes[0]); 
+    ctx.interval = setInterval(updateCanvas, 1000); 
+   
+  
+
+}
+
+
+// every time interval, do this for the start screen
+function updateCanvas() {
+
+    ctx.clearRect(0,0, canvas1.width, canvas1.height); 
+    // set color to next index in our colors array
+    ctx.fillStyle = 'black'; 
+    ctx.fillRect(0,0, canvas1.width, canvas1.height); 
+    ctx.font = "bold 64px Arial";
+    ctx.textAlign = "start"; 
+    ctx.textBaseline = "bottom"; 
+    ctx.fillStyle = colors[index];
+    index += 1; 
+    if (index == colors.length) {
+        index = 0; 
+    }
+    ctx.fillText("3D TETRIS",canvas1.width/2-canvas1.width/5.68,canvas1.height/2 - canvas1.width/17.04);
+    ctx.font = "italic 32px Arial";
+    ctx.fillText("Press Any Button To Begin",canvas1.width/2-canvas1.width/4.8,canvas1.height/2   ); 
+    displayHint(); 
+    document.body.insertBefore(canvas1, document.body.childNodes[0]); 
+
+
+}
+
+// display the controls at the bottom left of the screen
+function displayHint() {
+    ctx.font = "bold 24px Arial"; 
+    ctx.textAlign = "start"; 
+    ctx.textBaseline = "bottom"; 
+    ctx.fillStyle =  "#33ff36";
+    ctx.fillText("Controls",50,canvas1.height/2 + canvas1.width/4);
+    
+    ctx.font = "16px Arial"; 
+    ctx.fillText("W/E = Rotate",50,canvas1.height/2 + canvas1.width/4 + 20);
+    ctx.fillText("Arrow Keys = Shift",50,canvas1.height/2 + canvas1.width/4 + 40);
+    ctx.fillText("P = Pause",50,canvas1.height/2 + canvas1.width/4 + 60);
+    ctx.fillText("0/1/2/3 = Difficulty", 50,canvas1.height/2 + canvas1.width/4 + 80);
+    ctx.fillText("Space Bar = Shift down", 50,canvas1.height/2 + canvas1.width/4 + 100);
+    ctx.fillText("Mouse Click = Toggle Camera", 50,canvas1.height/2 + canvas1.width/4 + 120);
+
+    document.body.insertBefore(canvas1, document.body.childNodes[0]); 
+
+
 }
