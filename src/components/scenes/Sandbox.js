@@ -26,9 +26,6 @@ class Sandbox extends TetrisScene {
         this.state.gui.add(this.state, 'TBlocks');
         this.state.gui.add(this.state, 'SBlocks');
         this.state.gui.add(this.state, 'ZBlocks');
-        
-        this.setupEventListeners();
-        this.reset();
     }
 
     update(timeStamp, cameraPosition, cameraTarget) {

@@ -143,18 +143,17 @@ class TetrisScene extends Scene {
     }
 
     handleKeyDown(event) {
-        if (!this.pause && this.current){
-            this.current.action(event);
-        }
         if (event.code === "KeyP"){
             this.pause = !this.pause;
             if (this.pause) {
-               this.paused_element = new Pause(this); 
-
+                this.paused_element = new Pause(this); 
             }
             else {
                 this.paused_element.destroyer(this); 
             }
+        }
+        if (!this.pause && this.current){
+            this.current.action(event);
         }
     }
 
