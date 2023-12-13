@@ -83,6 +83,7 @@ class Shape extends Group {
             }
             for (const block of this.items) {
                 block.position.y -= 2;
+                block.shadow();
             }
             return true;
         }
