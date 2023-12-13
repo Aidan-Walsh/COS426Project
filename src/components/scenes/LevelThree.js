@@ -1,6 +1,5 @@
 import * as Dat from 'dat.gui';
 import { Scene, Color, TextureLoader } from 'three';
-
 import { BasicLights } from 'lights';
 import Floor from '../objects/Floor/Floor';
 import { FloorMesh } from '../objects/FloorMesh';

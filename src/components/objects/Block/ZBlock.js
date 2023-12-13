@@ -15,35 +15,6 @@ class ZBlock extends Shape {
             this.add(item);
         }
     }
-
-    action(event){
-        super.action(event);
-
-        if (event.code === "KeyQ") {
-            let bound;
-            let rotate;
-            if (this.orientation == 0) {
-                bound = new Vector3(0, 0, 0);
-                rotate = super.rotate(bound);
-                if (rotate) this.orientation = 1;
-            }
-            else if (this.orientation == 1){
-                bound = new Vector3(-5, 0, 0);
-                rotate = super.rotate(bound);
-                if (rotate) this.orientation = 2;
-            }
-            else if (this.orientation == 2){
-                bound = new Vector3(0, 0, 0);
-                rotate = super.rotate(bound);
-                if (rotate) this.orientation = 3;
-            }
-            else if (this.orientation == 3){
-                bound = new Vector3(5, 0, 0);
-                rotate = super.rotate(bound);
-                if (rotate) this.orientation = 0;
-            }
-        }
-    }
 }
 
 export default ZBlock;

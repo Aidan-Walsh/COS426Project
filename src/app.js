@@ -19,12 +19,6 @@ createOpeningScreen();
 
 createScoreDisplay();
 
-// Set up camera
-camera.position.set(0, 10, 25);
-camera.lookAt(new Vector3(0, 0, 0));
-
-
-
 // Set up renderer, canvas, and minor CSS adjustments
 renderer.setPixelRatio(window.devicePixelRatio);
 const canvas = renderer.domElement;
@@ -35,6 +29,8 @@ document.body.appendChild(canvas);
 
 // Set up controls
 const controls = new OrbitControls(camera, canvas);
+controls.object.position.set(0, 20, 5);
+controls.target = new Vector3(0, 0, -6);
 controls.enableDamping = true;
 controls.enablePan = false;
 controls.minDistance = 4;
@@ -49,7 +45,7 @@ let level = 0;
 
 // Render loop
 const onAnimationFrameHandler = (timeStamp) => {
-    
+    console.log(camera.position);
     controls.update();
     renderer.render(scene, camera);
     scene.update && scene.update(timeStamp);

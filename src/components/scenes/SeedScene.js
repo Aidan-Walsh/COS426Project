@@ -1,6 +1,5 @@
 import * as Dat from 'dat.gui';
 import { Scene, Color, TextureLoader } from 'three';
-
 import { BasicLights } from 'lights';
 import Floor from '../objects/Floor/Floor';
 import { FloorMesh } from '../objects/FloorMesh';
@@ -201,7 +200,6 @@ class SeedScene extends Scene {
         window.addEventListener('keydown', (e) => this.handleKeyDown(e));
     }
 
-    // Event handler for keydown events
     handleKeyDown(event) {
         if (!this.pause && this.current){
             this.current.action(event);
