@@ -232,7 +232,7 @@ function displayHint() {
     
     ctx.font = "16px Arial"; 
     ctx.fillText("Q/W/E = Rotate",50,canvas1.height/3 + 20);
-    ctx.fillText("Arrow Keys = Translate",50,canvas1.height/3 + 40);
+    ctx.fillText("Arrow Keys = Shift",50,canvas1.height/3 + 40);
     ctx.fillText("P = Pause",50,canvas1.height/3 + 60);
     ctx.fillText("1/2/3 = Difficulty", 50,canvas1.height/3 + 80);
     ctx.fillText("0 = Sandbox", 50, canvas1.height/3 + 100);
