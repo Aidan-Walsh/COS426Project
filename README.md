@@ -2,7 +2,9 @@
 Welcome to our 3D Tetris repository! Here, you can find our writeup on the background, motivation, implementation, challenges, and results of our project. The writeup is called 3DTetris.pdf. We also have a link to our game below and instructions on how to play.
 
 [Demo Video](https://drive.google.com/file/d/1puA2sJjkzZ6moJBL37w_JogaJicV25mO/view?usp=drive_link)
-[Writeup](https://github.com/Aidan-Walsh/COS426Project/blob/main/3D%20Tetris%20Writeup.pdf)
+
+[Writeup](https://github.com/Aidan-Walsh/COS426Project/blob/main/3DTetris.pdf)
+
 [Online Demo](https://aidan-walsh.github.io/COS426Project/)
 
 ## Instructions
